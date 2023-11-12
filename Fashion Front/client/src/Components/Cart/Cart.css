@@ -1,0 +1,16 @@
+.custom-heading{
+    font-weight: 400;
+    font-family: 'Montserrat', sans-serif;
+    margin-left: 60px;
+}
+
+.custom-link{
+    text-decoration: none;
+    color: black;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    margin-right: 60px;
+}
+.shift-left{
+    text-align: right;
+}
