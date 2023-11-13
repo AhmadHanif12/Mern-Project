@@ -5,9 +5,9 @@ function CheckoutItem(props) {
   return (
     <div className='item'>
         <img src={props.productImage} className='image' alt="products" />
-        <h6 className='name'>{props.productName}</h6>
-        <p className='quantity'>x{props.productQuantity}</p>
-        <h6 className='price'>{props.productPrice * props.productQuantity}</h6>
+        <h6 className='name'>{props.productName}</h6><br/>
+        <p className='quantity'>{props.productQuantity}</p>
+        <h6 className='price'>PKR {props.productPrice * props.productQuantity}</h6>
     </div>
   )
 }

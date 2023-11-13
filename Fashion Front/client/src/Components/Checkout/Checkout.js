@@ -4,9 +4,43 @@ import './Checkout.css';
 import CheckoutItem from './CheckoutItem';
 import { Navbar, Container, Row, Col, Form, Button } from 'react-bootstrap';
 
-
+// Array of the products used as an example. These will be retrieved from database once backend is completed.
+const products = [
+    {productName: 'Black T-Shirt For Men',
+    productImage: 'https://flyingcart.pk/cdn/shop/products/1_227b79f9-ee6b-4b72-bab4-7657a4b9461a.jpg?v=1678535186',
+    productQuantity: 3,
+    productPrice: 900},
+    {productName: 'Black Jogger Pant For Men',
+    productImage: 'https://flyingcart.pk/cdn/shop/products/1_fbec952c-b693-4a0d-83dc-38061c8090af.jpg?v=1678960153',
+    productQuantity: 2,
+    productPrice: 1811},
+    {productName: 'Meclay London Anti Dandruff Conditioner 180ML',
+    productImage: 'https://flyingcart.pk/cdn/shop/files/MeclayLondonAntiDandruffConditioner.jpg?v=1699277741',
+    productQuantity: 4,
+    productPrice: 381},
+    {productName: 'Royal Oud 50ML Eau De Perfume - For Men',
+    productImage: 'https://flyingcart.pk/cdn/shop/files/Royaloud.webp?v=1699104386',
+    productQuantity: 1,
+    productPrice: 2999}
+]
 
 class Checkout extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            total: 7092,
+            shipping: 199
+        }
+    }
+    //Function to get the total of the products in the cart
+    getTotal = () => {
+        let total = 0;
+        products.map(product => {
+            total += product.productPrice * product.productQuantity
+        });
+        this.setState({total: total});
+        console.log(total);
+    }
     render() {
         return (
             <div className='checkout-main'>
@@ -103,8 +137,38 @@ class Checkout extends React.Component {
                         </Col>
                         {/*  This column will be done once we start working on backend */}
 
-                        <Col>Column 2
-                            <CheckoutItem className='item' productName='Black T-Shirt For Men' productImage='https://flyingcart.pk/cdn/shop/products/1_227b79f9-ee6b-4b72-bab4-7657a4b9461a.jpg?v=1678535186' productQuantity='3' productPrice='900'/>
+                        <Col className='default-font'>
+                            {products.map(product => (
+                                <CheckoutItem
+                                    key={product.productId}  // Add a unique key to each item for React's efficiency
+                                    className='item'
+                                    productName={product.productName}
+                                    productImage={product.productImage}
+                                    productQuantity={product.productQuantity}
+                                    productPrice={product.productPrice}
+                                />
+                            ))}
+
+                            {/* {this.setState({
+                                total: products.reduce((acc, product) => acc + product.productPrice * product.productQuantity, 0)
+                            })}  */}
+                            <Form className='coupon-form' name='couponForm'>
+                                <Form.Group className="mb-3" controlId="formBasicEmail">
+                                    <Form.Control name='coupon' className='no-outline custom-field coupon' type="text" placeholder="Discount code or gift card" />
+                                    <Button className='apply-coupon mb-3' type="submit">
+                                        Apply
+                                    </Button>
+                                </Form.Group>
+                            </Form>
+                            <div className='separator'></div>
+                            <div className='total'>
+                                <h5 className='total-text'>Cost summary</h5>
+                                <h6 className='total-text'>PKR {this.state.total}</h6>
+                                <h5 className='total-text'>Shipping</h5>
+                                <h6 className='total-text'>PKR {this.state.shipping}</h6>
+                                <h5 className='total-text'>Total</h5>
+                                <h6 className='total-text'>PKR {this.state.shipping + this.state.total}</h6>
+                            </div>
                         </Col>
                     </Row>
                 </Container>
