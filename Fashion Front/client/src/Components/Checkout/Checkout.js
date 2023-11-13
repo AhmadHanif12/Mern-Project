@@ -4,6 +4,7 @@ import './Checkout.css';
 import CheckoutItem from './CheckoutItem';
 import { Navbar, Container, Row, Col, Form, Button } from 'react-bootstrap';
 
+// Example array for the display. Will use database once integrated.
 const products = [
     {productName: 'Black T-Shirt For Men',
     productImage: 'https://flyingcart.pk/cdn/shop/products/1_227b79f9-ee6b-4b72-bab4-7657a4b9461a.jpg?v=1678535186',
@@ -146,10 +147,6 @@ class Checkout extends React.Component {
                                     productPrice={product.productPrice}
                                 />
                             ))}
-
-                            {/* {this.setState({
-                                total: products.reduce((acc, product) => acc + product.productPrice * product.productQuantity, 0)
-                            })}  */}
                             <Form className='coupon-form' name='couponForm'>
                                 <Form.Group className="mb-3" controlId="formBasicEmail">
                                     <Form.Control name='coupon' className='no-outline custom-field coupon' type="text" placeholder="Discount code or gift card" />
@@ -157,6 +154,7 @@ class Checkout extends React.Component {
                                         Apply
                                     </Button>
                                 </Form.Group>
+                                {/* Display the total cost for the user */}
                             </Form>
                             <div className='separator'></div>
                             <div className='total'>
