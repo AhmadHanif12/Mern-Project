@@ -4,7 +4,6 @@ import './Checkout.css';
 import CheckoutItem from './CheckoutItem';
 import { Navbar, Container, Row, Col, Form, Button } from 'react-bootstrap';
 
-// Array of the products used as an example. These will be retrieved from database once backend is completed.
 const products = [
     {productName: 'Black T-Shirt For Men',
     productImage: 'https://flyingcart.pk/cdn/shop/products/1_227b79f9-ee6b-4b72-bab4-7657a4b9461a.jpg?v=1678535186',
@@ -32,7 +31,6 @@ class Checkout extends React.Component {
             shipping: 199
         }
     }
-    //Function to get the total of the products in the cart
     getTotal = () => {
         let total = 0;
         products.map(product => {

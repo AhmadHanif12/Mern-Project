@@ -3,6 +3,7 @@ import logo from '../../logo.svg';
 import facebook from './Icons/facebook.png';
 import instagram from './Icons/instagram.png';
 import twitter from './Icons/twitter.png';
+import './Footer.css';
 import { Nav, Navbar, Container, Row, Col } from 'react-bootstrap';
 
 class Footer extends React.Component {
@@ -33,9 +34,9 @@ class Footer extends React.Component {
                     <Row className="social-media-icons">
                         <Col xs={1} className="copyright">© 2023</Col >
                         <Col>
-                        <Nav.Link href="#facebook.com" className= 'footer-icons'><img src={facebook}/></Nav.Link>
-                        <Nav.Link href="#instagram.com" className= 'footer-icons'><img src={instagram}/></Nav.Link>
-                        <Nav.Link href="#x.com" className= 'footer-icons'><img src={twitter}/></Nav.Link>
+                        <Nav.Link href="#facebook.com" className= 'footer-icons'><img src={facebook} alt='facebook Icon'/></Nav.Link>
+                        <Nav.Link href="#instagram.com" className= 'footer-icons'><img src={instagram} alt='Instragram Icon'/></Nav.Link>
+                        <Nav.Link href="#x.com" className= 'footer-icons'><img src={twitter} alt='Twitter Icon'/></Nav.Link>
 
                         </Col>
                         <Col xs={1}></Col>

@@ -1,7 +1,9 @@
 .custom-heading{
+    font-size: 35px;
     font-weight: 400;
     font-family: 'Montserrat', sans-serif;
-    margin-left: 60px;
+    margin-left: 4px;
+    margin-top: 20%;
 }
 
 .custom-link{
@@ -9,8 +11,83 @@
     color: black;
     font-family: 'Montserrat', sans-serif;
     font-size: 18px;
-    margin-right: 60px;
+    
+   
 }
-.shift-left{
+.shift-right{
+    text-align: right !important;
+    margin-top: 9%;
+    margin-left: 100px;
+
+}
+
+.shift-leftin{
     text-align: right;
+    
+   
+
+}
+.separator{
+    border-bottom: 1px solid #e6e6e6;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.total{
+    text-align: right;
+    width: 100%;
+    margin-left: 0;
+}
+
+.total h4{
+    display: inline-block;
+    float: left;
+    width: 70%;
+    text-align: right;
+}
+
+.total h5{
+    display: inline-block;
+    float: right;
+    width: 30%;
+    text-align: right;
+    font-size: 18px;
+}
+.total p{
+    display: inline-block;
+    float: right;
+    width: 30%;
+    text-align: right;
+    color: #999;
+    margin: 15px 0;
+}
+.checkout{
+    width: 100%;
+    margin: 15px 0;
+}
+.checkout button{
+    width: 30%;
+    float: right;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.checkout button:hover{
+    background-color: #555;
+}
+.checkout button:focus, .checkout button:focus:active{
+    outline: none;
+    background-color: #555;
+}
+
+.top-distance{
+    margin-top: 2%;
+    font-weight: 300;
+    font-size: 14px;
+
 }

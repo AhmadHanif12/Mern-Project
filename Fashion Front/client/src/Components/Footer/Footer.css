@@ -1,0 +1,37 @@
+.footer-main{
+    background-color: #121212;
+    color: #f5f5f5;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    padding: 15px 0 0 0;
+  }
+  
+  @media(min-width: 967px){
+      .footer-main .col{
+        border-right: 1px solid #ffffff7f !important;
+        border-left: 1px solid #ffffff7f !important;
+        
+      }
+  }
+  
+  .footer-link{
+    text-align: left;
+    
+    padding: 10px;
+  }
+  
+  .copyright
+  {
+    padding-top: 25px;
+  }
+  
+  .footer-icons{
+    display: inline-block;
+    padding: 15px;
+  }
+  
+  .social-media-icons .col{
+    text-align: center;
+    border: none !important;
+  }
