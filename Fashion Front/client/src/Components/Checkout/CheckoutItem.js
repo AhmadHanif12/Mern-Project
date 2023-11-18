@@ -11,5 +11,4 @@ function CheckoutItem(props) {
     </div>
   )
 }
-    
 export default CheckoutItem
