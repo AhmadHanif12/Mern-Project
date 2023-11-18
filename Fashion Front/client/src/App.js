@@ -7,18 +7,22 @@ import Login from './Components/Login/Login';
 import SignUp from './Components/SignUp/Signup';
 import Checkout from './Components/Checkout/Checkout';
 import Cart from './Components/Cart/Cart';
+import React from 'react';
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
 
 function App() {
+  const [isLogin, setIsLogin] = React.useState(false);
   return (
     <div className="App">
+      {console.log(isLogin)}
       <Header/>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home/>}/>
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login setIsLogin ={setIsLogin} />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/cart" element={<Cart />} />
@@ -26,6 +30,8 @@ function App() {
         </Routes>
       </BrowserRouter>
       <Footer/>
+
+      {console.log(isLogin)}
       {/* <div>
         <Header />
       </div>
@@ -37,6 +43,7 @@ function App() {
         <Footer />
       </div> */}
     </div>
+
   );
 }
 

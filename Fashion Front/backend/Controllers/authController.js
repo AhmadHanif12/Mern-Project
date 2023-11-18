@@ -2,6 +2,7 @@ const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('./../Models/userModel');
+const AppError = require('./../utils/appError');
 const catchAsync = require('./../utils/catchAsync');
 
 // signing token, setting default time limits
@@ -36,38 +37,74 @@ const createSendToken = (user, statusCode, req, res) => {
 
 //signup function
 
-exports.signup = catchAsync(async (req, res, next) => {
-  const newUser = await User.create({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm
-  });
-
-  const url = `${req.protocol}://${req.get('host')}/me`;
-  
-  createSendToken(newUser, 201, req, res);
-});
+exports.signup = async (req, res, next) => {
+  try {
+    const newUser = await User.create({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password,
+      passwordConfirm: req.body.passwordConfirm
+    });
+    createSendToken(newUser, 201, req, res);
+  } catch (err) {
+    if (err.code === 11000) {
+      res.status(400).json({
+        status: 'fail',
+        message: 'This Email already exists'
+      });
+    } else {
+      res.status(400).json({
+        status: 'fail',
+        message: 'Invalid data sent'
+      });
+      console.log(err);
+    }
+  }
+};
 
 //login function
-exports.login = catchAsync(async (req, res, next) => {
+exports.login = async (req, res, next) => {
   const { email, password } = req.body;
 
-  //Check if email exists and pass exits in the request
-  if (!email || !password) {
-    return next(new AppError('Please provide email and password!', 400));
-  }
-  
-  const user = await User.findOne({ email }).select('+password');
+  try {
+    //Check if email exists and pass exits in the request
+    if (!email || !password) {
+      return next(new AppError('Please provide email and password!', 400));
+    }
 
-  //Authenticate the user
-  if (!user || !(await user.correctPassword(password, user.password))) {
-    return next(new AppError('Incorrect email or password', 401));
+    const user = await User.findOne({ email }).select('+password');
+
+    //Authenticate the user
+    if (!user || !(await user.correctPassword(password, user.password))) {
+      res.status(401).json({
+        status: 'fail',
+        message: 'Incorrect email or password'
+      });
+      return;
+    }
+    createSendToken(user, 200, req, res);
+  } catch (err) {
+    if (err.code === 11000) {
+      res.status(400).json({
+        status: 'fail',
+        message: 'This Email already exists'
+      });
+    } else {
+      res.status(400).json({
+        status: 'fail',
+        message: 'Invalid data sent'
+      });
+      console.log(err);
+    }
+
   }
+
+
 
   //If everything ok, send token to client
-  createSendToken(user, 200, req, res);
-});
+ 
+};
 
 exports.logout = (req, res) => {
   res.cookie('jwt', 'loggedout', {
@@ -116,7 +153,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
   }
 
-  
+
   req.user = currentUser;
   res.locals.user = currentUser;
   next();
@@ -143,7 +180,7 @@ exports.isLoggedIn = async (req, res, next) => {
         return next();
       }
 
-      
+
       res.locals.user = currentUser;
       return next();
     } catch (err) {
@@ -171,7 +208,7 @@ exports.restrictTo = (...roles) => {
 
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
-  
+
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
     return next(new AppError('There is no user with email address.', 404));
@@ -216,7 +253,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     passwordResetExpires: { $gt: Date.now() }
   });
 
- 
+
   if (!user) {
     return next(new AppError('Token is invalid or has expired', 400));
   }
@@ -231,7 +268,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  
+
   const user = await User.findById(req.user.id).select('+password');
 
   if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
@@ -240,6 +277,6 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
- 
+
   createSendToken(user, 200, req, res);
 });
