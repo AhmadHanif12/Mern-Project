@@ -9,19 +9,19 @@ const products = [
     {productName: 'Black T-Shirt For Men',
     productImage: 'https://flyingcart.pk/cdn/shop/products/1_227b79f9-ee6b-4b72-bab4-7657a4b9461a.jpg?v=1678535186',
     productQuantity: 3,
-    productPrice: 900},
+    productPrice: 10},
     {productName: 'Black Jogger Pant For Men',
     productImage: 'https://flyingcart.pk/cdn/shop/products/1_fbec952c-b693-4a0d-83dc-38061c8090af.jpg?v=1678960153',
     productQuantity: 2,
-    productPrice: 1811},
+    productPrice: 181},
     {productName: 'Meclay London Anti Dandruff Conditioner 180ML',
     productImage: 'https://flyingcart.pk/cdn/shop/files/MeclayLondonAntiDandruffConditioner.jpg?v=1699277741',
     productQuantity: 4,
-    productPrice: 381},
+    productPrice: 38},
     {productName: 'Royal Oud 50ML Eau De Perfume - For Men',
     productImage: 'https://flyingcart.pk/cdn/shop/files/Royaloud.webp?v=1699104386',
     productQuantity: 1,
-    productPrice: 2999}
+    productPrice: 29}
 ]
 
 class Checkout extends React.Component {
@@ -108,7 +108,7 @@ class Checkout extends React.Component {
                                     <Form.Label className='custom-label'>Shipping method</Form.Label>
                                     <div className='customship'>
                                         <h5 className='shipping shipping-left'>Shipping Charges</h5>
-                                        <h5 className='shipping shipping-right'>Rs 199.00</h5>
+                                        <h5 className='shipping shipping-right'>CAD 5.99</h5>
                                     </div>
                                 </Form.Group>
                                     {/*  Form group for Payment information] */}
@@ -159,11 +159,11 @@ class Checkout extends React.Component {
                             <div className='separator'></div>
                             <div className='total'>
                                 <h5 className='total-text'>Cost summary</h5>
-                                <h6 className='total-text'>PKR {this.state.total}</h6>
+                                <h6 className='total-text'>CAD {this.state.total}</h6>
                                 <h5 className='total-text'>Shipping</h5>
-                                <h6 className='total-text'>PKR {this.state.shipping}</h6>
+                                <h6 className='total-text'>CAD {this.state.shipping}</h6>
                                 <h5 className='total-text'>Total</h5>
-                                <h6 className='total-text'>PKR {this.state.shipping + this.state.total}</h6>
+                                <h6 className='total-text'>CAD {this.state.shipping + this.state.total}</h6>
                             </div>
                         </Col>
                     </Row>

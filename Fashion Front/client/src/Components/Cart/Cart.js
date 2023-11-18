@@ -12,28 +12,28 @@ function Cart() {
       productName: 'Black T-Shirt For Men',
       productImage: 'https://flyingcart.pk/cdn/shop/products/1_227b79f9-ee6b-4b72-bab4-7657a4b9461a.jpg?v=1678535186',
       productQuantity: 3,
-      productPrice: 900
+      productPrice: 90
     },
     {
       id: 2,
       productName: 'Black Jogger Pant For Men',
       productImage: 'https://flyingcart.pk/cdn/shop/products/1_fbec952c-b693-4a0d-83dc-38061c8090af.jpg?v=1678960153',
       productQuantity: 2,
-      productPrice: 1811
+      productPrice: 18
     },
     {
       id: 3,
       productName: 'Meclay London Anti Dandruff Conditioner 180ML',
       productImage: 'https://flyingcart.pk/cdn/shop/files/MeclayLondonAntiDandruffConditioner.jpg?v=1699277741',
       productQuantity: 4,
-      productPrice: 381
+      productPrice: 38
     },
     {
       id: 4,
       productName: 'Royal Oud 50ML Eau De Perfume - For Men',
       productImage: 'https://flyingcart.pk/cdn/shop/files/Royaloud.webp?v=1699104386',
       productQuantity: 1,
-      productPrice: 2999
+      productPrice: 29
     }
   ]);
 
@@ -92,7 +92,7 @@ function Cart() {
       <Row>
         <div className='total'>
           <h4 className='total-text'>Estimated Total</h4>
-          <h5 className='total-text'>PKR {total.toFixed(2)}</h5>
+          <h5 className='total-text'>CAD {total.toFixed(2)}</h5>
           <p>Tax included.Shipping and discounts calculated
 at checkout.</p>
         </div>

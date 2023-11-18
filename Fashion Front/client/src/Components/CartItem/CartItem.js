@@ -19,7 +19,7 @@ function CartItem(props) {
                     <button className='btn btn-primary' onClick={props.increaseQuantity}>+</button>
                 </div>
                 <div className='product-total'>
-                    <h6>PKR {props.productPrice * props.productQuantity}</h6>
+                    <h6>CAD {props.productPrice * props.productQuantity}</h6>
                 </div>
             </div>
         </Row>

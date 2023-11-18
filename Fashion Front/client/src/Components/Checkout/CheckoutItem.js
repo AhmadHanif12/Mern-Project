@@ -7,7 +7,7 @@ function CheckoutItem(props) {
         <img src={props.productImage} className='image' alt="products" />
         <h6 className='name'>{props.productName}</h6><br/>
         <p className='quantity'>{props.productQuantity}</p>
-        <h6 className='price'>PKR {props.productPrice * props.productQuantity}</h6>
+        <h6 className='price'>CAD {props.productPrice * props.productQuantity}</h6>
     </div>
   )
 }
