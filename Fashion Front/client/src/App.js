@@ -7,6 +7,8 @@ import Login from './Components/Login/Login';
 import SignUp from './Components/SignUp/Signup';
 import Checkout from './Components/Checkout/Checkout';
 import Cart from './Components/Cart/Cart';
+import Addproduct from './Components/AddProduct/AddProduct';
+
 import React from 'react';
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -26,6 +28,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/addproduct" element={<Addproduct />} />
 
         </Routes>
       </BrowserRouter>
