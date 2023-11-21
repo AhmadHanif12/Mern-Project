@@ -14,6 +14,7 @@ const cors = require('cors');
 const AppError = require('./utils/appError');
 
 const userRouter = require('./Routers/userRouter');
+const productRouter = require('./Routers/productRouter');
 
 // Start express app
 const app = express();
@@ -59,6 +60,7 @@ app.use((req, res, next) => {
 
 
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/products', productRouter);
 
 
 app.all('*', (req, res, next) => {

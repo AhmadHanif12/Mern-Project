@@ -54,10 +54,22 @@ exports.signup = async (req, res, next) => {
         message: 'This Email already exists'
       });
     } else {
-      res.status(400).json({
-        status: 'fail',
-        message: 'Invalid data sent'
-      });
+
+      if(err.name === 'ValidationError')
+      {
+        res.status(400).json({
+          status: 'fail',
+          message: 'Invalid Password' 
+        });
+      }
+      else
+      {
+        res.status(400).json({
+          status: 'fail',
+          message: 'Invalid Password' 
+        });
+      }
+      
       console.log(err);
     }
   }
