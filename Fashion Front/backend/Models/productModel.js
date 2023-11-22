@@ -28,17 +28,13 @@ const productSchema = new mongoose.Schema({
     trim: true,
     required: [true, "Please Enter Product Brand."]
   },
-  colors: {
-    type: [String],
-    required: [true, "Please Enter Product Colors."]
-  },
   sizes: {
     type: [String],
-    required: [true, "Please Enter Product Sizes."]
+    //required: [true, "Please Enter Product Sizes."]
   },
   stock: {
     type: Number,
-    required: [true, "Please Enter Product Quantity."],
+    //required: [true, "Please Enter Product Quantity."],
     min: 0
   },
   images: {
