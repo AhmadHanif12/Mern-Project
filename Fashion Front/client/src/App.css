@@ -131,10 +131,18 @@
 .customform
 { 
   border-radius: 0;
-  border-color: #121212;
+  border-color: #121212 !important;
   border-width: 1px;
 
   height: 45px;
+  box-shadow: none !important;
+}
+
+.customform:focus
+{
+  border-color: #121212 !important;
+  border-width: 2px;
+  box-shadow: none !important;
 }
 
 .no-outline:focus {
