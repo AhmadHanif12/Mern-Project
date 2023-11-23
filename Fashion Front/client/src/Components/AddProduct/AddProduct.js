@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import './AddProduct.css'
 import axios from 'axios'
 import { Row, Col, Container, Form, Button, Alert } from 'react-bootstrap'
@@ -33,7 +33,7 @@ function AddProduct() {
                 [name]: value,
             }));
         }
-        
+
     }
 
     //Function to handle submit
@@ -41,33 +41,60 @@ function AddProduct() {
         e.preventDefault();
         setMessage("");
         setErr("");
-    
+
         const { name, description, price, images, brand, category, stock } = product;
-    
+
         if (name === "" || description === "" || price === "" || images.length === 0 || brand === "" || category === "" || stock === "") {
             setErr("Please fill all the fields");
             return;
         }
-    
+
         try {
             const p = {
                 name,
                 description,
                 price,
-                images,
                 brand,
                 category,
                 stock
             };
-            
+
             console.log(p);
             const response = await axios.post('http://localhost:8080/api/v1/products/', p, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
+            //console.log(response);
+            const imagePromises = images.map(imageUrl => fetch(imageUrl).then(res => res.blob()));
+
+            const imageBlobs = await Promise.all(imagePromises);
+
+            const formData = new FormData();
+            for (let i = 0; i < imageBlobs.length; i++) {
+                formData.append('images', imageBlobs[i]);
+            }
+            for (let pair of formData.entries()) {
+                if (pair[1] instanceof File) {
+                    const url = URL.createObjectURL(pair[1]);
+                    console.log(`Key: ${pair[0]}, URL: ${url}`);
+                }
+            }
+            axios.patch(`http://localhost:8080/api/v1/products/${response.data._id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }).then((res) => {
+                console.log(res.data);
+                setErr("");
+                setMessage("Product added successfully");
+            }).catch((err) => {
+                console.log(err);
+                setErr("Error uploading images");
+            });
+
             // handle response here...
-            console.log(response);
+            //console.log(response);
         } catch (error) {
             // handle error here...
             console.error(error);

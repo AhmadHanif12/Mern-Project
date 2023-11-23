@@ -1,3 +1,31 @@
+const multer = require('multer');
+
+
+const multerStorage = multer.memoryStorage();
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb('Not an image! Please upload only images.', false);
+  }
+};
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter
+});
+
+const uploadProductImages = (req, res, next) => {
+  upload.fields([{ name: 'images', maxCount: 5 }])(req, res, (err) => {
+    if (err) {
+      return res.status(400).json({ error: err });
+    }
+    next();
+  });
+};
+
+
 // productController.js
 const Product = require('../Models/productModel');
 
@@ -31,7 +59,7 @@ const addProduct = async (req, res) => {
     const savedProduct = await newProduct.save();
     res.status(201).json(savedProduct);
   } catch (error) {
-    res.status(400).json({ error: 'Bad Request' });
+    res.status(400).json({ error: error || 'Bad Request' });
   }
 };
 
@@ -40,8 +68,7 @@ const updateProductById = async (req, res) => {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
-      req.body,
-      { new: true }
+      req.body
     );
     if (!updatedProduct) {
       return res.status(404).json({ error: 'Product not found' });
@@ -72,4 +99,5 @@ module.exports = {
   addProduct,
   updateProductById,
   deleteProductById,
+  uploadProductImages
 };

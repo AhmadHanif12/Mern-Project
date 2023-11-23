@@ -38,8 +38,7 @@ const productSchema = new mongoose.Schema({
     min: 0
   },
   images: {
-    type: [String],
-    required: [true, "Please Enter Product Images."]
+    type: [String]
   },
   createdAt: {
     type: Date,
