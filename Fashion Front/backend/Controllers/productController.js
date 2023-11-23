@@ -1,9 +1,13 @@
 const multer = require('multer');
+const sharp = require('sharp');
+const Product = require('../Models/productModel');
 
 
 const multerStorage = multer.memoryStorage();
 
+// Multer Filter
 const multerFilter = (req, file, cb) => {
+  console.log(file.mimetype);
   if (file.mimetype.startsWith('image')) {
     cb(null, true);
   } else {
@@ -16,18 +20,42 @@ const upload = multer({
   fileFilter: multerFilter
 });
 
-const uploadProductImages = (req, res, next) => {
-  upload.fields([{ name: 'images', maxCount: 5 }])(req, res, (err) => {
-    if (err) {
-      return res.status(400).json({ error: err });
-    }
+const uploadProductImages = upload.fields([
+  { name: 'images', maxCount: 5 }
+]);
+
+
+// Function to resize product images
+const resizeProductImages = async (req, res, next) => {
+  try {
+    console.log(req.files.images.length);
+    if (req.files.images.length === 0) return next();
+
+    // 2) Images
+    req.body.images = [];
+
+    await Promise.all(
+      req.files.images.map(async (file, i) => {
+        const ext = file.mimetype.split('/')[1];
+        const filename = `product-${req.params.id}-${Date.now()}-${i + 1}.${ext}`;
+        await sharp(file.buffer)
+          .resize(2000, 1333)
+          .toFile(`public/img/products/${filename}`);
+
+        const path = `http://localhost:8080/img/products/${filename}`;
+        //console.log(filename);
+        req.body.images.push(path);
+        //console.log(req.body.images);
+      })
+    );
+
     next();
-  });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
 
-
 // productController.js
-const Product = require('../Models/productModel');
 
 const getAllProducts = async (req, res) => {
   try {
@@ -99,5 +127,6 @@ module.exports = {
   addProduct,
   updateProductById,
   deleteProductById,
-  uploadProductImages
+  uploadProductImages,
+  resizeProductImages
 };

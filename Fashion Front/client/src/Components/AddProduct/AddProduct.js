@@ -65,21 +65,20 @@ function AddProduct() {
                     'Content-Type': 'application/json',
                 },
             });
-            //console.log(response);
-            const imagePromises = images.map(imageUrl => fetch(imageUrl).then(res => res.blob()));
-
-            const imageBlobs = await Promise.all(imagePromises);
-
+            console.log(response);
+       
             const formData = new FormData();
-            for (let i = 0; i < imageBlobs.length; i++) {
-                formData.append('images', imageBlobs[i]);
+            for (let i = 0; i < images.length; i++) {
+                formData.append('images', images[i]);
             }
             for (let pair of formData.entries()) {
                 if (pair[1] instanceof File) {
-                    const url = URL.createObjectURL(pair[1]);
-                    console.log(`Key: ${pair[0]}, URL: ${url}`);
+                    console.log(`Key: ${pair[0]}, File name: ${pair[1].name}, File size: ${pair[1].size}, File type: ${pair[1].type}`);
+                } else {
+                    console.log(pair[0]+ ', ' + pair[1]);
                 }
             }
+            
             axios.patch(`http://localhost:8080/api/v1/products/${response.data._id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',

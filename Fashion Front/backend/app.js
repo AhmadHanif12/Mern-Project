@@ -20,6 +20,9 @@ const productRouter = require('./Routers/productRouter');
 const app = express();
 
 
+console.log(path.join(__dirname, 'public'));
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -28,7 +31,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(cors());
 
 app.options('*', cors());
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security HTTP headers
 app.use(helmet());
