@@ -43,11 +43,11 @@ const Login = (props) => {
                 setMessage("Login successful.");
                 Cookies.set('token',response.data.token, { expires: 7 });
                 props.setIsLogin(true);
-                //window.location.replace("/");
+                window.location.replace("/");
             }
 
         } catch (error) {
-            console.log(error);
+            //console.log(error);
             setErr(error.response.data.message); // You can customize this error message.
         }
     }
@@ -74,8 +74,8 @@ const Login = (props) => {
                                     <Button className='custombutton mb-3' type="submit" onClick={login}>
                                         Sign in
                                     </Button>
-                                    {err != "" ? (<Alert key='danger' variant='danger'>{err}</Alert>) : null}
-                                    {message != "" ? (<Alert key='success' variant='success'>{message}</Alert>) : null}
+                                    {err !== "" ? (<Alert key='danger' variant='danger'>{err}</Alert>) : null}
+                                    {message !== "" ? (<Alert key='success' variant='success'>{message}</Alert>) : null}
                                     <p className="mt-2">
                                         <a href="/signup" className="create-account">Create account</a>
                                     </p>

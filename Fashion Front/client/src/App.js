@@ -8,46 +8,41 @@ import SignUp from './Components/SignUp/Signup';
 import Checkout from './Components/Checkout/Checkout';
 import Cart from './Components/Cart/Cart';
 import Addproduct from './Components/AddProduct/AddProduct';
-
-import React from 'react';
+import Cookies from 'js-cookie';
+import React, { Component } from 'react';
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
-
-function App() {
-  const [isLogin, setIsLogin] = React.useState(false);
-  return (
-    <div className="App">
-      {console.log(isLogin)}
-      <Header/>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/login" element={<Login setIsLogin ={setIsLogin} />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/addproduct" element={<Addproduct />} />
-
-        </Routes>
-      </BrowserRouter>
-      <Footer/>
-
-      {console.log(isLogin)}
-      {/* <div>
-        <Header />
-      </div>
+export class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isLogin: Cookies.get('token') || false
+    }
+  }
+  setIsLogin = (value) => {
+    this.setState({ isLogin: value })
+  }
+  render() {
+    return (
       <div>
-        {isLogin ? <LoginPage setIsLogin={setIsLogin} /> : <SignUp setIsLogin={setIsLogin} />}
-      </div>
+        <Header user={this.state.isLogin} />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login setIsLogin={this.setIsLogin} />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/addproduct" element={<Addproduct />} />
 
-      <div>
+          </Routes>
+        </BrowserRouter>
         <Footer />
-      </div> */}
-    </div>
-
-  );
+      </div>
+    )
+  }
 }
 
-export default App;
+export default App
