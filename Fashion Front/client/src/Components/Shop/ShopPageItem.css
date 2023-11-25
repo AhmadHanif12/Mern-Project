@@ -1,0 +1,101 @@
+.flipping {
+    width: 67.2px;
+    height: 67.2px;
+    animation: flipping-apv10omd 2s infinite linear;
+}
+
+.flipping::before {
+    content: "";
+    display: block;
+    width: 50%;
+    height: 50%;
+    transform: perspective(168px) rotateX(0deg);
+    transform-origin: bottom;
+    animation: flipping-1vy4p0md 0.5s infinite linear alternate,
+        flipping-mr9hp6md 0.5s infinite linear alternate;
+}
+
+@keyframes flipping-apv10omd {
+
+    0%,
+    24.99% {
+        transform: scale(1, 1) rotate(0deg);
+    }
+
+    25%,
+    49.99% {
+        transform: scale(1, -1) rotate(90deg);
+    }
+
+    50%,
+    74.99% {
+        transform: scale(-1, -1) rotate(0deg);
+    }
+
+    75%,
+    100% {
+        transform: scale(-1, 1) rotate(90deg);
+    }
+}
+
+@keyframes flipping-1vy4p0md {
+    100% {
+        transform: perspective(168px) rotateX(180deg);
+    }
+}
+
+@keyframes flipping-mr9hp6md {
+
+    0%,
+    49.9% {
+        background: #474bff;
+    }
+
+    50%,
+    100% {
+        background: #ff6761;
+    }
+}
+
+/* Path: ShopPageItem.css */
+.description {
+    display: block !important;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 0;
+}
+
+.custombutton2
+{
+    border-radius: 0;
+  background-color: #121212;
+  font-family: 'Montserrat', sans-serif;
+
+  height: 50px;
+  border-color: #121212 !important;
+
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.custombutton2:active {
+    background-color: #090909 !important;
+    border-color: #000000 !important;
+    color: #ffffff;
+  
+  }
+  .custombutton2:hover {
+    background-color: #ffffff ;
+    border-color: #000000 ;
+    color: #121212;
+  }
+  
+
+.customcard{
+    margin-top: 10px;
+}

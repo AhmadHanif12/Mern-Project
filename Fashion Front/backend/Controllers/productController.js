@@ -1,6 +1,7 @@
 const multer = require('multer');
 const sharp = require('sharp');
 const Product = require('../Models/productModel');
+const APIFeatures = require('../utils/apiFeatures');
 
 
 const multerStorage = multer.memoryStorage();
@@ -23,7 +24,6 @@ const upload = multer({
 const uploadProductImages = upload.fields([
   { name: 'images', maxCount: 5 }
 ]);
-
 
 // Function to resize product images
 const resizeProductImages = async (req, res, next) => {
@@ -57,14 +57,41 @@ const resizeProductImages = async (req, res, next) => {
 
 // productController.js
 
-const getAllProducts = async (req, res) => {
+const getAllProducts = async (req, res, next) => {
   try {
-    const products = await Product.find();
-    res.json(products);
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
+    const features = new APIFeatures(Product.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const products = await features.query;
+    // SEND RESPONSE
+    res.status(200).json({
+      status: 'success',
+      results: products.length,
+      data: {
+        products
+      }
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err
+    });
+  };
+}
+
+// const getAllProducts = async (req, res) => {
+//   try {
+//     const products = await Product.find();
+//     res.json(products);
+//   } catch (error) {
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// };
+
+
+
 
 // function to get product by id
 
