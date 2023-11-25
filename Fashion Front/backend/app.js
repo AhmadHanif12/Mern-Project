@@ -15,6 +15,7 @@ const AppError = require('./utils/appError');
 
 const userRouter = require('./Routers/userRouter');
 const productRouter = require('./Routers/productRouter');
+const cartRouter = require('./Routers/cartRouter');
 
 // Start express app
 const app = express();
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
+
 
 
 // Implement CORS
@@ -63,7 +65,8 @@ app.use((req, res, next) => {
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/products', productRouter);
-
+app.use('/api/v1/products', productRouter);
+app.use('/api/v1/cart', cartRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

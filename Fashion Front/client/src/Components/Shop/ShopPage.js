@@ -28,7 +28,7 @@ const ShopPage = (props) => {
         if (Cookies.get('token')) {
             try{
                 console.log(product);
-                const response = await axios.post('http://localhost:8080/api/v1/addtocart', {
+                const response = await axios.post('http://localhost:8080/api/v1/cart', {
                     _id: product,
                 }, {
                     headers: {
