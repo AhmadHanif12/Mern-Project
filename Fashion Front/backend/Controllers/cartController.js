@@ -44,7 +44,36 @@ const addToCart = async (req, res) => {
     }
 };
 
+const getCart = async (req, res) => {
+    try {
+        let token;
+        if (
+            req.headers.authorization &&
+            req.headers.authorization.startsWith('Bearer')
+        ) {
+            token = req.headers.authorization.split(' ')[1];
+        }
+        
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.id;
+        // Find the user and the cart item with the given product
+        const user = await User.findById(userId, { products: 1 });
+        return res.status(200).json({
+            status: 'success',
+            message: 'Cart fetched successfully',
+            user: user,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            status: 'errorr',
+            error,
+        });
+    }
+}
+
 
 module.exports = {
-    addToCart
+    addToCart,
+    getCart
 }

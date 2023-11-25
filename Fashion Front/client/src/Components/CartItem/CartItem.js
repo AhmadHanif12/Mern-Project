@@ -11,12 +11,12 @@ function CartItem(props) {
                 </div>
                 <div className='product-info'>
                     <h5>{props.productName}</h5>
-                    <p>{props.productPrice}</p>
+                    <p>{props.productDescription}</p>
                 </div>
                 <div className='product-quantity'>
-                    <button className='btn btn-primary' onClick={props.decreaseQuantity}>-</button>
+                    <button className='btn btn-primary'>-</button>
                     <p>{props.productQuantity}</p>
-                    <button className='btn btn-primary' onClick={props.increaseQuantity}>+</button>
+                    <button className='btn btn-primary'>+</button>
                 </div>
                 <div className='product-total'>
                     <h6>CAD {props.productPrice * props.productQuantity}</h6>

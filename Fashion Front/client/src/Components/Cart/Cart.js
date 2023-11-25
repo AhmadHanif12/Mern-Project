@@ -1,41 +1,46 @@
 import './Cart.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CartItem from '../CartItem/CartItem';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import { Row, Col, Container } from 'react-bootstrap';
 
 
 //Each item in the cart is mapped to CartItem component
 function Cart() {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      productName: 'Black T-Shirt For Men',
-      productImage: 'https://flyingcart.pk/cdn/shop/products/1_227b79f9-ee6b-4b72-bab4-7657a4b9461a.jpg?v=1678535186',
-      productQuantity: 3,
-      productPrice: 90
-    },
-    {
-      id: 2,
-      productName: 'Black Jogger Pant For Men',
-      productImage: 'https://flyingcart.pk/cdn/shop/products/1_fbec952c-b693-4a0d-83dc-38061c8090af.jpg?v=1678960153',
-      productQuantity: 2,
-      productPrice: 18
-    },
-    {
-      id: 3,
-      productName: 'Meclay London Anti Dandruff Conditioner 180ML',
-      productImage: 'https://flyingcart.pk/cdn/shop/files/MeclayLondonAntiDandruffConditioner.jpg?v=1699277741',
-      productQuantity: 4,
-      productPrice: 38
-    },
-    {
-      id: 4,
-      productName: 'Royal Oud 50ML Eau De Perfume - For Men',
-      productImage: 'https://flyingcart.pk/cdn/shop/files/Royaloud.webp?v=1699104386',
-      productQuantity: 1,
-      productPrice: 29
+
+  const [cartItems, setCartItems] = useState([]);
+  const fetchProducts = async () => {
+    try {
+      const response = await axios('http://localhost:8080/api/v1/cart', {
+        headers: {
+          'authorization': `Bearer ${Cookies.get('token')}`
+        }
+      });
+      const productsData = await response.data.user.products; // Assuming the response contains an array directly
+      //console.log('product', productsData);
+      const temp = [];
+      // productsData.map(async item => {
+      //   const response = await axios.get(`http://localhost:8080/api/v1/products/${item._id}`);
+      //   temp.push({ quantity: item.quantity, info: response.data });
+      //   // console.log(temp);
+      // });
+      for(let i = 0; i < productsData.length; i++) {
+        const item = productsData[i];
+        const response = await axios.get(`http://localhost:8080/api/v1/products/${item._id}`);
+        productsData[i] = { ...response.data, quantity: item.quantity };  
+      }
+      setCartItems(productsData);
+      // setCartItems(temp);
+      console.log(temp);
+    } catch (error) {
+      console.log(error);
     }
-  ]);
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   const increaseQuantity = (itemId) => {
     setCartItems(prevItems => prevItems.map(item =>
@@ -77,27 +82,31 @@ function Cart() {
       </Row>
       {/* Div to display the individual item in the cart */}
       <div className='separator'></div>
-      {cartItems.map(item => (
+      {!cartItems ? <div className="flipping"></div> : cartItems.map(item => (
         <CartItem
-          key={item.id}
-          productName={item.productName}
-          productPrice={item.productPrice}
-          productQuantity={item.productQuantity}
-          productImage={item.productImage}
-          increaseQuantity={() => increaseQuantity(item.id)}
-          decreaseQuantity={() => decreaseQuantity(item.id)}
+          key={item._id}
+          productName={item.name}
+          productPrice={item.price}
+          productDescription={item.description}
+          productQuantity={item.quantity}
+          productImage={item.images[0]}
+          increaseQuantity={increaseQuantity}
+          decreaseQuantity={decreaseQuantity}
         />
+
       ))}
+      {console.log('cartItems = ', cartItems)}
+
       <div className='separator'></div>
       <Row>
         <div className='total'>
           <h4 className='total-text'>Estimated Total</h4>
           <h5 className='total-text'>CAD {total.toFixed(2)}</h5>
           <p>Tax included.Shipping and discounts calculated
-at checkout.</p>
+            at checkout.</p>
         </div>
         <div className='checkout'>
-          <button className='btn btn-primary' href='/checkout'  type="submit" >Checkout</button>
+          <button className='btn btn-primary' href='/checkout' type="submit" >Checkout</button>
         </div>
       </Row>
     </Container>
