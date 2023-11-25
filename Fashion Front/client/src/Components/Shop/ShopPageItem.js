@@ -5,6 +5,7 @@ import { Card, Button, Col } from 'react-bootstrap'
 
 function ShopPageItem(props) {
     const clickHandler = () => {
+        console.log(props._id)
         props.addToCart(props._id)
     }
     return (

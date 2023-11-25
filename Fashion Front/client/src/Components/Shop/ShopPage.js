@@ -27,18 +27,16 @@ const ShopPage = (props) => {
     const addToCart = async (product) => {
         if (Cookies.get('token')) {
             try{
-                console.log(product);
                 const response = await axios.post('http://localhost:8080/api/v1/cart', {
                     _id: product,
                 }, {
                     headers: {
-                        'Authorization': `Bearer ${Cookies.get('token')}`,
+                        'authorization': `Bearer ${Cookies.get('token')}`,
                         'Content-Type': 'application/json'
                     }
                 },)
-                console.log(response);
             } catch (error) {
-                console.log(error);
+
             }
         }
     }
@@ -54,7 +52,7 @@ const ShopPage = (props) => {
                     <Row>
                         {!products ? <div className="flipping"></div> : products.map(product => (
                             <ShopPageItem key={product._id} _id={product._id} name={product.name} description={product.description} image={product.images[0]} addToCart={addToCart} />
-                        ))}     
+                        ))}
                     </Row>
                 </Row>
             </Container>
