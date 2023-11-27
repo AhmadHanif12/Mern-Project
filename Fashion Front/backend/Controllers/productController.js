@@ -1,6 +1,9 @@
 const multer = require('multer');
 const sharp = require('sharp');
+const jwt = require('jsonwebtoken');
 const Product = require('../Models/productModel');
+const User = require('../Models/userModel');
+const mongoose = require('mongoose');
 const APIFeatures = require('../utils/apiFeatures');
 
 
@@ -8,7 +11,6 @@ const multerStorage = multer.memoryStorage();
 
 // Multer Filter
 const multerFilter = (req, file, cb) => {
-  console.log(file.mimetype);
   if (file.mimetype.startsWith('image')) {
     cb(null, true);
   } else {
@@ -28,7 +30,6 @@ const uploadProductImages = upload.fields([
 // Function to resize product images
 const resizeProductImages = async (req, res, next) => {
   try {
-    console.log(req.files.images.length);
     if (req.files.images.length === 0) return next();
 
     // 2) Images
@@ -81,6 +82,37 @@ const getAllProducts = async (req, res, next) => {
   };
 }
 
+const getSellerProducts = async (req, res) => {
+  try {
+    let token;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('Bearer')
+    ) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.id;
+    // Find the user and the cart item with the given product
+    const user = await User.findById(userId);
+    console.log(user);
+    if (!user || user.role === 'customer') {
+      return res.status(404).json({
+        status: 'fail',
+        error: 'Please Login as a seller to view your products'
+      });
+    }
+    const sellerProducts = await Product.find({ sellerId: userId });
+    return res.status(200).json({
+      status: 'success',
+      data: sellerProducts
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(400).json({ error: error || 'Bad Request' });
+  }
+}
+
 // const getAllProducts = async (req, res) => {
 //   try {
 //     const products = await Product.find();
@@ -110,10 +142,40 @@ const getProductById = async (req, res) => {
 // function to add product
 const addProduct = async (req, res) => {
   try {
-    const newProduct = new Product(req.body);
+    let token;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('Bearer')
+    ) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.id;
+    // Find the user and the cart item with the given product
+    const user = await User.findById(userId);
+    if (!user || user.role === 'customer') {
+      return res.status(404).json({
+        status: 'fail',
+        error: 'Please Login as a seller to add product'
+      });
+    }
+    const newProduct = new Product({
+      sellerId: new mongoose.Types.ObjectId(userId),
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
+      stock: req.body.stock,
+      category: req.body.category,
+      brand: req.body.brand,
+    });
+    //const newProduct = new Product(req.body);
     const savedProduct = await newProduct.save();
-    res.status(201).json(savedProduct);
+    res.status(201).json({
+      status: 'success',
+      savedProduct
+    });
   } catch (error) {
+    console.log(error)
     res.status(400).json({ error: error || 'Bad Request' });
   }
 };
@@ -149,6 +211,7 @@ const deleteProductById = async (req, res) => {
 };
 
 module.exports = {
+  getSellerProducts,
   getAllProducts,
   getProductById,
   addProduct,

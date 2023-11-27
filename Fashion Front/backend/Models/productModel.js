@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
+  sellerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: [true, "Please Enter Seller ID."],
+    trim: true
+  },
   name: {
     type: String,
     required: [true, "Please Enter Product Name."],
