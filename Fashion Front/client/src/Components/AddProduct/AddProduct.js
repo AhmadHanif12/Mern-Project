@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import './AddProduct.css'
 import axios from 'axios'
-import { Row, Col, Container, Form, Button, Alert } from 'react-bootstrap'
+import Cookies from 'js-cookie'
+import { Row, Col, Form, Button, Alert } from 'react-bootstrap'
 
 function AddProduct() {
     const [err, setErr] = useState("");
@@ -58,45 +59,49 @@ function AddProduct() {
                 category,
                 stock
             };
+            if (Cookies.get('token')) {
+                console.log(p);
+                const response = await axios.post('http://localhost:8080/api/v1/products/', p, {
+                    headers: {
+                        'authorization': `Bearer ${Cookies.get('token')}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+                console.log(response);
 
-            console.log(p);
-            const response = await axios.post('http://localhost:8080/api/v1/products/', p, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            console.log(response);
-       
-            const formData = new FormData();
-            for (let i = 0; i < images.length; i++) {
-                formData.append('images', images[i]);
-            }
-            for (let pair of formData.entries()) {
-                if (pair[1] instanceof File) {
-                    console.log(`Key: ${pair[0]}, File name: ${pair[1].name}, File size: ${pair[1].size}, File type: ${pair[1].type}`);
-                } else {
-                    console.log(pair[0]+ ', ' + pair[1]);
+                const formData = new FormData();
+                for (let i = 0; i < images.length; i++) {
+                    formData.append('images', images[i]);
                 }
+                for (let pair of formData.entries()) {
+                    if (pair[1] instanceof File) {
+                        console.log(`Key: ${pair[0]}, File name: ${pair[1].name}, File size: ${pair[1].size}, File type: ${pair[1].type}`);
+                    } else {
+                        console.log(pair[0] + ', ' + pair[1]);
+                    }
+                }
+                axios.patch(`http://localhost:8080/api/v1/products/${response.data.savedProduct._id}`, formData, {
+                    headers: {
+                        'authorization': `Bearer ${Cookies.get('token')}`,
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }).then((res) => {
+                    console.log(res.data);
+                    setErr("");
+                    setMessage("Product added successfully");
+                }).catch((err) => {
+                    console.log(err);
+                    setErr("Error uploading images");
+                });
+            } else {
+                setErr("Please login to add product");
             }
-            
-            axios.patch(`http://localhost:8080/api/v1/products/${response.data._id}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            }).then((res) => {
-                console.log(res.data);
-                setErr("");
-                setMessage("Product added successfully");
-            }).catch((err) => {
-                console.log(err);
-                setErr("Error uploading images");
-            });
 
             // handle response here...
             //console.log(response);
         } catch (error) {
             // handle error here...
-            console.error(error);
+            setErr(error.response.data.error);
         }
     }
 
@@ -148,8 +153,8 @@ function AddProduct() {
                     <Button onClick={submitHandler} className='custombutton1' variant="primary" type="submit">
                         Add Product
                     </Button>
-                    {err != "" ? (<Alert key='danger' variant='danger'>{err}</Alert>) : null}
-                    {message != "" ? (<Alert key='success' variant='success'>{message}</Alert>) : null}
+                    {err !== "" ? (<Alert key='danger' variant='danger'>{err}</Alert>) : null}
+                    {message !== "" ? (<Alert key='success' variant='success'>{message}</Alert>) : null}
                 </Form>
             </Row>
         </Col>
