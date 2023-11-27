@@ -25,8 +25,8 @@ function SellerProduct() {
     useEffect(() => {
         fetchProducts();
     }, []);
-    const viewProduct = () => {
-
+    const viewProduct = (pid) => {
+        
     }
     const removeProduct = async (pid) => {
         try {
@@ -73,7 +73,7 @@ function SellerProduct() {
                         productName={product.name}
                         productPrice={product.price}
                         productDescription={product.description}
-                        productStock={product.quantity}
+                        productStock={product.stock}
                         productImage={product.images[0]}
                         viewProduct={viewProduct}
                         removeProduct={removeProduct}

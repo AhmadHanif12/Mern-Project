@@ -8,10 +8,13 @@ function ShopPageItem(props) {
         console.log(props._id)
         props.addToCart(props._id)
     }
+    const viewProduct = () => {
+        window.location.href = `/products/${props._id}`;
+    }
     return (
-        <Col md={3} className='product'>
+        <Col className='customcol' md={3}>
             <Card className='customcard'>
-                <Card.Img variant="top" src={props.image} />
+                <Card.Img className="image" variant="top" src={props.image} />
                 <Card.Body>
                     <Card.Title className='title'>{props.name}</Card.Title>
                     <Card.Text className='  description'>
@@ -20,9 +23,13 @@ function ShopPageItem(props) {
                     <Button onClick={clickHandler} className='custombutton2' variant="primary" type="submit">
                         Add to Cart
                     </Button>
+                    <Button onClick={viewProduct} className='custombutton2' variant="primary" type="submit">
+                        View
+                    </Button>
                 </Card.Body>
             </Card>
         </Col>
+
     )
 }
 

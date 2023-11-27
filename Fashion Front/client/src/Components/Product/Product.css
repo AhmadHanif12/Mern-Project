@@ -1,0 +1,31 @@
+/* Product.css */
+.productbody
+{
+    margin-top: 100px;  
+    width :100%;
+}
+.Product-Container {
+    margin-top: 30px;
+    margin-bottom: 100px;
+}
+
+/* Style for product name */
+.Card-Title {
+    font-size: 24px; /* You can adjust the font size as needed */
+    font-weight: bold;
+    margin-bottom: 10px; /* Add some space below the product name */
+}
+
+/* Style for product description */
+.Card-Text {
+    font-size: 25px; /* Increase the font size for the description */
+    margin-bottom: 15px; /* Add some space below the product description */
+}
+
+/* Style for price */
+.Price {
+    font-size: 24px; /* Increase the font size for the price */
+    font-weight: bold;
+    display: block;
+    margin-top: 10px; /* Add some space above the price */
+}

@@ -11,6 +11,7 @@ import Addproduct from './Components/AddProduct/AddProduct';
 import ShopPage from './Components/Shop/ShopPage';
 import AdminSeller from './Components/AdminSeller/AdminSeller';
 import SellerProduct from './Components/SellerProduct/SellerProduct';
+import Product from './Components/Product/Product';
 import Cookies from 'js-cookie';
 import React, { Component } from 'react';
 
@@ -42,6 +43,7 @@ export class App extends Component {
             <Route path="/shop" element={<ShopPage isLoggedIn={this.state.isLogin}/>} />
             <Route path="/adminSeller" element={<AdminSeller isLoggedIn={this.state.isLogin}/>} />
             <Route path="/sellerProduct" element={<SellerProduct isLoggedIn={this.state.isLogin}/>} />
+            <Route path="/products/*" element={<Product />} />
             
           </Routes>
         </BrowserRouter>

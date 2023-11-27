@@ -12,6 +12,12 @@
     height: 100%;
     margin-left: 15px;
 }
+.product-details{
+    display: none;
+}
+.active{
+    display: block;
+}
 .actions{
     width: 43%;
     float: left;
