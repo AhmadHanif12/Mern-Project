@@ -21,7 +21,6 @@ const Signup = () => {
         e.preventDefault();
         setMessage("");
         setErr("");
-        //const navigate = useNavigate();
 
         const { firstName, lastName, email, role, password, passwordConfirm } = user;
 

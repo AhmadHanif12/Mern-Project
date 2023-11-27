@@ -88,7 +88,7 @@ function Header(props) {
                                             :
                                             <div>
                                                 <NavDropdown.Item href="/login">Login</NavDropdown.Item>
-                                                <NavDropdown.Item href="/register">Register</NavDropdown.Item>
+                                                <NavDropdown.Item href="/signup">Signup</NavDropdown.Item>
                                             </div>
                                     }
                                     {/* <NavDropdown.Item href="#action/3.1">Men</NavDropdown.Item>
