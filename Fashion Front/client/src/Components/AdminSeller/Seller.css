@@ -1,0 +1,24 @@
+.seller-image{
+    width: 10%;
+    float: left;
+    height: 100%;
+}
+.seller-image img{
+    width: 100%;
+}
+.seller-info{
+    width: 45%;
+    float: left;
+    height: 100%;
+    margin-left: 15px;
+}
+.actions{
+    width: 23%;
+    float: left;
+    height: 100%;
+    text-align: right;
+}
+.seller{
+    width: 100%;
+    padding: 15px 0;
+}
