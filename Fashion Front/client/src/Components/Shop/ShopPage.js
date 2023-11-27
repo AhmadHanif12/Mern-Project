@@ -36,7 +36,7 @@ const ShopPage = (props) => {
                     }
                 },)
             } catch (error) {
-
+                console.log(error);
             }
         }
     }

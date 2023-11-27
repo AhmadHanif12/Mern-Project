@@ -34,7 +34,7 @@ const productSchema = new mongoose.Schema({
   },
   stock: {
     type: Number,
-    //required: [true, "Please Enter Product Quantity."],
+    required: [true, "Please Enter Product Quantity."],
     min: 0
   },
   images: {

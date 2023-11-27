@@ -9,4 +9,5 @@ const router = express.Router();
 // Define the route to call the addToCart function
 router.post('/', cartController.addToCart);
 router.get('/', cartController.getCart);
+router.patch('/', cartController.updateCart);
 module.exports = router;

@@ -18,21 +18,12 @@ function Cart() {
         }
       });
       const productsData = await response.data.user.products; // Assuming the response contains an array directly
-      //console.log('product', productsData);
-      const temp = [];
-      // productsData.map(async item => {
-      //   const response = await axios.get(`http://localhost:8080/api/v1/products/${item._id}`);
-      //   temp.push({ quantity: item.quantity, info: response.data });
-      //   // console.log(temp);
-      // });
       for(let i = 0; i < productsData.length; i++) {
         const item = productsData[i];
         const response = await axios.get(`http://localhost:8080/api/v1/products/${item._id}`);
         productsData[i] = { ...response.data, quantity: item.quantity };  
       }
       setCartItems(productsData);
-      // setCartItems(temp);
-      console.log(temp);
     } catch (error) {
       console.log(error);
     }
@@ -42,19 +33,64 @@ function Cart() {
     fetchProducts();
   }, []);
 
-  const increaseQuantity = (itemId) => {
-    setCartItems(prevItems => prevItems.map(item =>
-      item.id === itemId ? { ...item, productQuantity: item.productQuantity + 1 } : item
-    ));
+  const increaseQuantity = async (itemId) => {
+    const updatedCartItems = cartItems.map(item => {
+      if (item._id === itemId) {
+        return { ...item, quantity: item.quantity + 1 };
+      } else {
+        return item;
+      }
+    });
+  
+    setCartItems(updatedCartItems);
+  
+    if (Cookies.get('token')) {
+      try {
+        await axios.patch('http://localhost:8080/api/v1/cart', {
+          _id: itemId,
+          quantity: updatedCartItems.find(item => item._id === itemId)?.quantity || 0
+        }, {
+          headers: {
+            'authorization': `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json'
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
-  const decreaseQuantity = (itemId) => {
-    setCartItems(prevItems => prevItems.map(item =>
-      item.id === itemId && item.productQuantity > 1 ? { ...item, productQuantity: item.productQuantity - 1 } : item
-    ));
+  const decreaseQuantity = async (itemId) => {
+    const updatedCartItems = cartItems.map(item => {
+      if (item._id === itemId && item.quantity > 1) {
+        return { ...item, quantity: item.quantity - 1 };
+      } else {
+        return item;
+      }
+    });
+  
+    setCartItems(updatedCartItems);
+  
+    if (Cookies.get('token')) {
+      try {
+        await axios.patch('http://localhost:8080/api/v1/cart', {
+          _id: itemId,
+          quantity: updatedCartItems.find(item => item._id === itemId)?.quantity || 0
+        }, {
+          headers: {
+            'authorization': `Bearer ${Cookies.get('token')}`,
+            'Content-Type': 'application/json'
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
+  
   const total = cartItems.reduce((acc, item) => {
-    return acc + item.productPrice * item.productQuantity;
+    return acc + item.price * item.quantity;
   }, 0);
   return (
     <Container>
@@ -85,6 +121,7 @@ function Cart() {
       {!cartItems ? <div className="flipping"></div> : cartItems.map(item => (
         <CartItem
           key={item._id}
+          itemId={item._id}
           productName={item.name}
           productPrice={item.price}
           productDescription={item.description}
@@ -95,7 +132,6 @@ function Cart() {
         />
 
       ))}
-      {console.log('cartItems = ', cartItems)}
 
       <div className='separator'></div>
       <Row>

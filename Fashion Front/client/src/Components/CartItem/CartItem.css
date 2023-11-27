@@ -13,7 +13,7 @@
     margin-left: 15px;
 }
 .product-quantity{
-    width: 10%;
+    width: 20%;
     float: left;
     height: 100%;
     text-align: right;
@@ -42,7 +42,7 @@
     color: #111;
 }
 .product-total{
-    width: 33%;
+    width: 23%;
     float: left;
     height: 100%;
     text-align: right;
