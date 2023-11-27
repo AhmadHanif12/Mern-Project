@@ -4,7 +4,7 @@ import { Row, Button } from 'react-bootstrap';
 
 function Seller(props) {
     const viewSeller = () => {
-        window.location.href = `/sellers/${props.sellerId}`;
+        window.location.href = `/seller/${props.sellerId}`;
     }
     const removeSeller = () => {
         props.removeSeller(props.sellerId);

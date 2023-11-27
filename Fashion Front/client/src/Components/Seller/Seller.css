@@ -1,0 +1,20 @@
+/* ViewSeller.css */
+
+/* Add margin to the top and bottom of the entire container */
+.ViewSeller-Container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Style for seller name */
+.Seller-Name {
+    font-size: 24px; /* You can adjust the font size as needed */
+    font-weight: bold;
+    margin-bottom: 10px; /* Add some space below the seller name */
+}
+
+/* Style for seller email */
+.Seller-Email {
+    font-size: 18px; /* You can adjust the font size as needed */
+    margin-top: 10px; /* Add some space above the email */
+}

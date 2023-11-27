@@ -43,6 +43,8 @@ const Login = (props) => {
                 setMessage("Login successful.");
                 Cookies.set('token',response.data.token, { expires: 7 });
                 props.setIsLogin(true);
+                console.log(response.data.data.role);
+                Cookies.set('role', response.data.data.user.role, { expires: 7 });
                 window.location.replace("/");
             }
 

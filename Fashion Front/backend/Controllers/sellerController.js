@@ -40,6 +40,41 @@ const getAllSellers = async (req, res) => {
     }
 };
 
+const getSellerById = async (req, res) => {
+    try {
+        let token;
+        if (
+            req.headers.authorization &&
+            req.headers.authorization.startsWith('Bearer')
+        ) {
+            token = req.headers.authorization.split(' ')[1];
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.id;
+        // Find the user and the cart item with the given product
+        const user = await User.findById(userId);
+        if (user.role !== 'admin') {
+            return res.status(401).json({
+                status: 'Failed',
+                message: 'You are not authorized to perform this action'
+            })
+        } else {
+            const seller = await User.findById(req.params.id);
+            return res.status(200).json({
+                status: 'success',
+                data: seller
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            status: 'error',
+            error,
+        });
+    }
+};
+
 
 const deleteSellerbyId = async (req, res) => {
     try {
@@ -112,5 +147,6 @@ const verifySellerbyId = async (req, res) => {
 module.exports = {
     getAllSellers,
     deleteSellerbyId,
-    verifySellerbyId
+    verifySellerbyId,
+    getSellerById
 }
