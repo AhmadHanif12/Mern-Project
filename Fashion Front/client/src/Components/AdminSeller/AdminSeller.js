@@ -26,6 +26,12 @@ function AdminSeller() {
         fetchSellers();
     }, []);
 
+    const viewSeller = () => {
+
+    }
+    const removeSeller = () => {
+        
+    }
     return (
         <div>
             <Container>
@@ -54,6 +60,9 @@ function AdminSeller() {
                         sellerName={seller.firstName + " " + seller.lastName}
                         sellerEmail={seller.email}
                         sellerImage={seller.photo}
+                        viewSeller={viewSeller} 
+                        removeSeller={removeSeller} 
+                        
                     />
 
                 ))}
