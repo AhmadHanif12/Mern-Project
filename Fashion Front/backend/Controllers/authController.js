@@ -292,3 +292,15 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   createSendToken(user, 200, req, res);
 });
+
+
+exports.restrictTo = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return res.status(401).json({
+        status: 'Failed',
+        message: 'You are not authorized to perform this action'
+      })
+    }
+  };
+}
