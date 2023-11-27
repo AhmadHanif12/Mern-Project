@@ -13,7 +13,7 @@
     margin-left: 15px;
 }
 .actions{
-    width: 23%;
+    width: 43%;
     float: left;
     height: 100%;
     text-align: right;
@@ -21,4 +21,11 @@
 .seller{
     width: 100%;
     padding: 15px 0;
+}
+
+.actions .custombutton {
+    width: 38% !important;
+    margin: 0 10px;
+    float: right;
+    margin-right: 0;
 }

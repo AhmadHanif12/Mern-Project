@@ -6,23 +6,24 @@ import Seller from './Seller'
 import { Row, Col, Container } from 'react-bootstrap';
 
 function AdminSeller() {
-    const { sellers, setSellers } = useState([]);
-    const fetchsellers = async () => {
+    const [ sellers, setSellers ] = useState([]);
+    const fetchSellers = async () => {
         try {
-            const response = await axios('http://localhost:8080/api/v1/sellers', {
+            const response = await axios('http://localhost:8080/api/v1/seller', {
                 headers: {
                     'authorization': `Bearer ${Cookies.get('token')}`
                 }
             });
-            const sellersData = await response.data.user.sellers; // Assuming the response contains an array directly
+            const sellersData = await response.data.data; // Assuming the response contains an array directly
             setSellers(sellersData);
+            console.log(sellersData);
         } catch (error) {
             console.log(error);
         }
     };
 
     useEffect(() => {
-        fetchsellers();
+        fetchSellers();
     }, []);
 
     return (
@@ -47,7 +48,13 @@ function AdminSeller() {
                 {/* Div to display the individual item in the cart */}
                 <div className='separator'></div>
                 {!sellers ? <div className="flipping"></div> : sellers.map(seller => (
-                    <Seller />
+                    <Seller 
+                        key={seller._id}
+                        sellerId={seller._id}
+                        sellerName={seller.firstName + " " + seller.lastName}
+                        sellerEmail={seller.email}
+                        sellerImage={seller.photo}
+                    />
 
                 ))}
                 {/* {!cartItems ? <div className="flipping"></div> : cartItems.map(item => (

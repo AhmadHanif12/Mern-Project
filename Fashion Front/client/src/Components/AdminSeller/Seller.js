@@ -2,7 +2,7 @@ import React from 'react'
 import './Seller.css'
 import { Row, Button } from 'react-bootstrap';
 
-function CartItem(props) {
+function Seller(props) {
     const viewSeller = () => {
 
     }
@@ -13,18 +13,18 @@ function CartItem(props) {
         <Row>
             <div className='seller'>
                 <div className='seller-image'>
-                    <img src={props.productImage} alt='Product' />
+                    <img src={props.sellerImage} alt='Seller' />
                 </div>
                 <div className='seller-info'>
-                    <h5>{props.productName}</h5>
-                    <p>{props.productDescription}</p>
+                    <h5>{props.sellerName}</h5>
+                    <p>{props.sellerEmail}</p>
                 </div>
                 <div className='actions'>
-                    <Button className='custombutton mb-3' type="submit" onClick={viewSeller}>
-                        View
-                    </Button>
                     <Button className='custombutton mb-3' type="submit" onClick={removeSeller}>
                         Remove
+                    </Button>
+                    <Button className='custombutton mb-3' type="submit" onClick={viewSeller}>
+                        View
                     </Button>
                 </div>
             </div>
@@ -32,4 +32,4 @@ function CartItem(props) {
     )
 }
 
-export default CartItem
+export default Seller

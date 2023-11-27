@@ -5,3 +5,8 @@
     margin-left: 4px;
     margin-top: 15px;
 }
+
+.actions .customButton {
+    width: 45%;
+    margin: 0 10px;
+}
