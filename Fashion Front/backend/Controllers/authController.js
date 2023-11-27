@@ -43,9 +43,16 @@ exports.signup = async (req, res, next) => {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
+      role: req.body.role,
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm
     });
+    if (newUser.role !== 'seller' && newUser.role !== 'customer') {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'Invalid role'
+      });
+    }
     createSendToken(newUser, 201, req, res);
   } catch (err) {
     if (err.code === 11000) {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; 
+import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import './SignUp.css';
@@ -8,8 +8,9 @@ const Signup = () => {
     const [message, setMessage] = useState("");
     const [user, setUser] = useState({
         firstName: "",
-        lastName: "",   
+        lastName: "",
         email: "",
+        role: "customer",
         password: "",
         passwordConfirm: "",
     });
@@ -22,9 +23,9 @@ const Signup = () => {
         setErr("");
         //const navigate = useNavigate();
 
-        const { firstName, lastName, email, password, passwordConfirm } = user;
+        const { firstName, lastName, email, role, password, passwordConfirm } = user;
 
-        if (firstName === "" || lastName === "" || email === "" || password === "" || passwordConfirm === "") {
+        if (firstName === "" || lastName === "" || email === "" || password === "" || passwordConfirm === "" || role === "") {
             setErr("Please fill all the fields");
             return;
         }
@@ -34,14 +35,15 @@ const Signup = () => {
                 firstName,
                 lastName,
                 email,
+                role,
                 password,
                 passwordConfirm,
             },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
             if (response.status === 201) {
                 setMessage("Registration successful. Please login.");
                 window.location.replace("/login");
@@ -66,14 +68,14 @@ const Signup = () => {
         }
     }
     return (
-            <Container className="login-main">
-                <Row className="justify-content-md-center">
-                    <Col md={{ span: 6 }}>
-                        <h2>Create Account</h2>
-                    </Col>
-                </Row>
-                <Row className="justify-content-md-center">
-                    <Col md={{ span: 6 }}>
+        <Container className="login-main">
+            <Row className="justify-content-md-center">
+                <Col md={{ span: 6 }}>
+                    <h2>Create Account</h2>
+                </Col>
+            </Row>
+            <Row className="justify-content-md-center">
+                <Col md={{ span: 6 }}>
                     <Form>
                         <Form.Group controlId="formBasicFirstName" className='mb-3 signup-form'>
                             <Form.Control name='firstName' value={user.firstName} onChange={handleChange} className="customform no-outline" type="name" placeholder="First name" />
@@ -81,11 +83,15 @@ const Signup = () => {
                             <Form.Control name='email' value={user.email} onChange={handleChange} className="customform no-outline" type="email" placeholder="Email" />
                             <Form.Control name='password' value={user.password} onChange={handleChange} className="customform no-outline" type="password" placeholder="Password" />
                             <Form.Control name='passwordConfirm' value={user.passwordConfirm} onChange={handleChangePassword} className="customform no-outline" type="password" placeholder="Confirm Password" />
+                            <Form.Select name='role' value={user.role} onChange={handleChange} className='customform'>
+                                <option value="customer">Customer</option>
+                                <option value="seller">Seller</option>
+                            </Form.Select>
                             <Button className='custombutton mb-3' type="submit" onClick={register}>
                                 Create Account
                             </Button>
-                            {err != "" ? (<Alert key='danger' variant='danger'>{err}</Alert>) : null}
-                            {message != "" ? (<Alert key='success' variant='success'>{message}</Alert>) : null}
+                            {err !== "" ? (<Alert key='danger' variant='danger'>{err}</Alert>) : null}
+                            {message !== "" ? (<Alert key='success' variant='success'>{message}</Alert>) : null}
                         </Form.Group>
                         <div className='text-center pt-3' >
                             <p className="mt-2">
@@ -93,11 +99,11 @@ const Signup = () => {
                             </p>
                         </div>
                     </Form>
-                    </Col>
-                </Row>
-            </Container >
-        )
-    }
+                </Col>
+            </Row>
+        </Container >
+    )
+}
 
 
 export default Signup;
