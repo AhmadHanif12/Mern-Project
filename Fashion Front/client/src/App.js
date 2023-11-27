@@ -9,6 +9,7 @@ import Checkout from './Components/Checkout/Checkout';
 import Cart from './Components/Cart/Cart';
 import Addproduct from './Components/AddProduct/AddProduct';
 import ShopPage from './Components/Shop/ShopPage';
+import AdminSeller from './Components/AdminSeller/AdminSeller';
 import Cookies from 'js-cookie';
 import React, { Component } from 'react';
 
@@ -38,6 +39,7 @@ export class App extends Component {
             <Route path="/cart" element={<Cart />} />
             <Route path="/addproduct" element={<Addproduct />} />
             <Route path="/shop" element={<ShopPage isLoggedIn={this.state.isLogin}/>} />
+            <Route path="/adminSeller" element={<AdminSeller isLoggedIn={this.state.isLogin}/>} />
             
           </Routes>
         </BrowserRouter>
