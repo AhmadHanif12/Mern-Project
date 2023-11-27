@@ -13,7 +13,7 @@ function AddProduct() {
         price: 0,
         images: [],
         brand: '',
-        category: '',
+        category: 'men',
         stock: 0
     });
 

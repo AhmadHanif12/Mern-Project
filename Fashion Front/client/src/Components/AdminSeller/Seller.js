@@ -4,11 +4,16 @@ import { Row, Button } from 'react-bootstrap';
 
 function Seller(props) {
     const viewSeller = () => {
-
+        window.location.href = `/sellers/${props.sellerId}`;
     }
     const removeSeller = () => {
-        
+        props.removeSeller(props.sellerId);
     }
+    const verifySeller = () => {
+        console.log(props.sellerId);
+        props.verifySeller(props.sellerId);
+    }
+
     return (
         <Row>
             <div className='seller'>
@@ -23,9 +28,11 @@ function Seller(props) {
                     <Button className='custombutton mb-3' type="submit" onClick={removeSeller}>
                         Remove
                     </Button>
+                    {!props.isVerified ? <Button className='custombutton mb-3' type="submit" onClick={verifySeller} >Verify</Button> :
                     <Button className='custombutton mb-3' type="submit" onClick={viewSeller}>
                         View
-                    </Button>
+                    </Button>}
+
                 </div>
             </div>
         </Row>

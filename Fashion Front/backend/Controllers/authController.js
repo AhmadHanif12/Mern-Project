@@ -39,14 +39,23 @@ const createSendToken = (user, statusCode, req, res) => {
 
 exports.signup = async (req, res, next) => {
   try {
+
     const newUser = await User.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
       role: req.body.role,
       password: req.body.password,
-      passwordConfirm: req.body.passwordConfirm
+      passwordConfirm: req.body.passwordConfirm,
     });
+    if (req.body.role === 'seller') {
+      newUser.verified = false;
+    }
+    else {
+      newUser.verified = true;
+    }
+
+
     if (newUser.role !== 'seller' && newUser.role !== 'customer') {
       return res.status(400).json({
         status: 'fail',
@@ -62,21 +71,19 @@ exports.signup = async (req, res, next) => {
       });
     } else {
 
-      if(err.name === 'ValidationError')
-      {
+      if (err.name === 'ValidationError') {
         res.status(400).json({
           status: 'fail',
-          message: 'Invalid Password' 
+          message: 'Invalid Password'
         });
       }
-      else
-      {
+      else {
         res.status(400).json({
           status: 'fail',
-          message: 'Invalid Password' 
+          message: 'Invalid Password'
         });
       }
-      
+
       console.log(err);
     }
   }
@@ -122,7 +129,7 @@ exports.login = async (req, res, next) => {
 
 
   //If everything ok, send token to client
- 
+
 };
 
 exports.logout = (req, res) => {

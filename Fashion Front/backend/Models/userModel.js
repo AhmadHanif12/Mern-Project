@@ -53,6 +53,10 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false
   },
+  verified:{
+    type: Boolean,
+    default: false
+  },
   products: [{
     productId: {
       type: mongoose.Schema.Types.ObjectId,

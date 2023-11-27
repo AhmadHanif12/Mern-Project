@@ -1,6 +1,7 @@
 const express = require('express');
 const userController = require('./../Controllers/userController');
 const authController = require('./../Controllers/authController');
+const sellerController = require('./../Controllers/sellerController');
 
 const router = express.Router();
 
@@ -8,5 +9,8 @@ const router = express.Router();
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 router.get('/logout', authController.logout);
+
+router.delete('/:id', sellerController.deleteSellerbyId);
+router.patch('/:id', sellerController.verifySellerbyId);
 
 module.exports = router;
