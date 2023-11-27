@@ -28,8 +28,22 @@ function SellerProduct() {
     const viewProduct = () => {
 
     }
-    const removeProduct = () => {
-
+    const removeProduct = async (pid) => {
+        try {
+            // Send delete request to the backend
+            const response = await axios.delete(`http://localhost:8080/api/v1/products/${pid}`, {
+                headers: {
+                    'authorization': `Bearer ${Cookies.get('token')}`
+                }
+            });
+    
+            // Update the frontend state to remove the deleted product
+            setProducts((prevProducts) => prevProducts.filter(product => product._id !== pid));
+            console.log(products);
+            console.log('Product removed successfully');
+        } catch (error) {
+            console.log(error);
+        }
     }
     return (
         <div>
@@ -66,20 +80,6 @@ function SellerProduct() {
                     />
 
                 ))}
-                {/* {!cartItems ? <div className="flipping"></div> : cartItems.map(item => (
-                    <CartItem
-                        key={item._id}
-                        itemId={item._id}
-                        sellerName={item.name}
-                        sellerPrice={item.price}
-                        sellerDescription={item.description}
-                        sellerQuantity={item.quantity}
-                        sellerImage={item.images[0]}
-                        increaseQuantity={increaseQuantity}
-                        decreaseQuantity={decreaseQuantity}
-                    />
-
-                ))} */}
 
                 <div className='separator'></div>
             </Container>

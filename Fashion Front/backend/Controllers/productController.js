@@ -95,7 +95,6 @@ const getSellerProducts = async (req, res) => {
     const userId = decoded.id;
     // Find the user and the cart item with the given product
     const user = await User.findById(userId);
-    console.log(user);
     if (!user || user.role === 'customer') {
       return res.status(404).json({
         status: 'fail',
@@ -200,12 +199,33 @@ const updateProductById = async (req, res) => {
 
 const deleteProductById = async (req, res) => {
   try {
-    const deletedProduct = await Product.findByIdAndRemove(req.params.id);
+    let token;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('Bearer')
+    ) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.id;
+    // Find the user and the cart item with the given product
+    const user = await User.findById(userId);
+    if (!user || user.role === 'customer') {
+      return res.status(404).json({
+        status: 'fail',
+        error: 'Please Login as a seller to add product'
+      });
+    }
+    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
     if (!deletedProduct) {
       return res.status(404).json({ error: 'Product not found' });
     }
-    res.json(deletedProduct);
+    return res.status(200).json({
+      status: 'success',
+      data: deletedProduct
+    });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };

@@ -1,12 +1,12 @@
-.seller-image{
+.product-image{
     width: 10%;
     float: left;
     height: 100%;
 }
-.seller-image img{
+.product-image img{
     width: 100%;
 }
-.seller-info{
+.product-info{
     width: 45%;
     float: left;
     height: 100%;
@@ -18,7 +18,7 @@
     height: 100%;
     text-align: right;
 }
-.seller{
+.product{
     width: 100%;
     padding: 15px 0;
 }
