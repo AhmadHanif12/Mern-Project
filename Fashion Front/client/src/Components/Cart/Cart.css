@@ -64,26 +64,36 @@
 .checkout{
     width: 100%;
     margin: 15px 0;
+    display: flex;
+    justify-content: flex-end;
 }
-.checkout button{
-    width: 30%;
-    float: right;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 0;
-    font-size: 18px;
-    font-weight: 500;
-    cursor: pointer;
+.custombutton
+{
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0;
+    background-color: #121212;
+    width: 120px;
+    height: 50px;
+    border-color: #121212 !important;
+    color:white ;
 }
-.checkout button:hover{
-    background-color: #555;
-}
-.checkout button:focus, .checkout button:focus:active{
-    outline: none;
-    background-color: #555;
-}
+.custombutton:active {
+    background-color: #090909 !important;
+    border-color: #000000 !important;
+    color: white !important;
+  
+  }
+  .custombutton:hover {
+    background-color: #ffffff ;
+    border-color: #000000 ;
+    color: #121212;
+  }
+  
 
 .top-distance{
     margin-top: 2%;

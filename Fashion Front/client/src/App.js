@@ -15,7 +15,7 @@ import Seller from './Components/Seller/Seller';
 import Product from './Components/Product/Product';
 import Cookies from 'js-cookie';
 import React, { Component } from 'react';
-
+import Profile from './Components/Profile/Profile';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
@@ -47,6 +47,7 @@ export class App extends Component {
             <Route path="/sellerProduct" element={<SellerProduct isLoggedIn={this.state.isLogin}/>} />
             <Route path="/products/*" element={<Product />} />
             <Route path="/seller/:id" element={<Seller/>}/> 
+            <Route path="/profile" element={<Profile/>}/>
             
           </Routes>
         </BrowserRouter>

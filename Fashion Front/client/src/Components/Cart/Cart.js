@@ -4,6 +4,7 @@ import CartItem from '../CartItem/CartItem';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { Row, Col, Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 
 //Each item in the cart is mapped to CartItem component
@@ -142,7 +143,7 @@ function Cart() {
             at checkout.</p>
         </div>
         <div className='checkout'>
-          <button className='btn btn-primary' href='/checkout' type="submit" >Checkout</button>
+        <Link className='custombutton' to='/checkout'>Checkout</Link>
         </div>
       </Row>
     </Container>

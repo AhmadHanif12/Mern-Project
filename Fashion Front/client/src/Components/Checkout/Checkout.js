@@ -1,9 +1,10 @@
-import React from 'react';
+// import React from 'react';
 import logo from '../../logo.svg';
 import './Checkout.css';
 import CheckoutItem from './CheckoutItem';
 import { Navbar, Container, Row, Col, Form, Button } from 'react-bootstrap';
-
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 // Example array for the display. Will use database once integrated.
 const products = [
     {productName: 'Black T-Shirt For Men',
@@ -24,23 +25,19 @@ const products = [
     productPrice: 29}
 ]
 
-class Checkout extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            total: 7092,
-            shipping: 199
-        }
-    }
-    getTotal = () => {
+function Checkout() {
+
+    const [total, setTotal] = useState(799);
+    const [shipping, setShipping] = useState(10);
+
+    const getTotal = () => {
         let total = 0;
         products.map(product => {
-            total += product.productPrice * product.productQuantity
+            total += product.productPrice * product.productQuantity;
         });
-        this.setState({total: total});
+        setTotal(total);
         console.log(total);
     }
-    render() {
         return (
             <div className='checkout-main'>
                 <Container>
@@ -128,9 +125,7 @@ class Checkout extends React.Component {
                                             he give the parcel to the customer.
                                         </p>
                                     </div>
-                                    <Button className='custombutton mb-3' type="submit">
-                                        Complete Order
-                                    </Button>
+                                    <Link to="/" className="custombutton5 mb-3">Submit</Link>
                                 </Form.Group>
                             </Form>
                         </Col>
@@ -150,7 +145,7 @@ class Checkout extends React.Component {
                             <Form className='coupon-form' name='couponForm'>
                                 <Form.Group className="mb-3" controlId="formBasicEmail">
                                     <Form.Control name='coupon' className='no-outline custom-field coupon' type="text" placeholder="Discount code or gift card" />
-                                    <Button className='apply-coupon mb-3' type="submit">
+                                    <Button className='apply-coupon mb-3 activebutton'type="submit">
                                         Apply
                                     </Button>
                                 </Form.Group>
@@ -159,18 +154,18 @@ class Checkout extends React.Component {
                             <div className='separator'></div>
                             <div className='total'>
                                 <h5 className='total-text'>Cost summary</h5>
-                                <h6 className='total-text'>CAD {this.state.total}</h6>
+                                <h6 className='total-text'>CAD {total}</h6>
                                 <h5 className='total-text'>Shipping</h5>
-                                <h6 className='total-text'>CAD {this.state.shipping}</h6>
+                                <h6 className='total-text'>CAD {shipping}</h6>
                                 <h5 className='total-text'>Total</h5>
-                                <h6 className='total-text'>CAD {this.state.shipping + this.state.total}</h6>
+                                <h6 className='total-text'>CAD {total+ shipping}</h6>
                             </div>
                         </Col>
                     </Row>
                 </Container>
             </div>
         );
-    }
+    
 }
 
 export default Checkout;

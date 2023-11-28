@@ -4,6 +4,10 @@
 .checkout-main img{
     animation: rotate 3s linear infinite;
 }
+.checkout-main{
+    font-family: 'Montserrat', sans-serif;
+
+}
 @keyframes rotate{
     0%{
         transform: rotate(0deg);
@@ -19,10 +23,12 @@
 
 .checkout-form{
     text-align: left;
+    ;
 }
 
 .custom-field{
     padding: 15px 10px; 
+    margin-top: 10px;
 }
 
 .custom-field:focus-visible,.custom-field:focus
@@ -112,11 +118,36 @@
 
 /* Styling for the button of Complete Order */
 
-.custombutton {
-    margin-top: 30px;
-    width: 100%;
-    border-radius: 5px;
+.custombutton5
+{
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    margin-top: 20px ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0;
+    background-color: #121212;
+    width: 120px;
+    height: 50px;
+    border-color: #121212 !important;
+    color:white ;
 }
+.custombutton5:active {
+    background-color: #090909 !important;
+    
+    border-color: #000000 !important;
+    color: white !important;
+  
+  }
+  
+  .custombutton5:hover {
+    background-color: #ffffff;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #000000 !important;
+    color: #121212;
+  }
 .coupon-form{
     margin-left: 15%;
     width: 70%;
@@ -166,4 +197,9 @@
 .default-font{
     font-family: 'Montserrat', sans-serif;
 
+}
+
+
+.activebutton{
+    margin-top: 10px;
 }
