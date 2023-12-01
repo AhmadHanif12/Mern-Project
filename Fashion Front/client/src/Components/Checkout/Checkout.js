@@ -5,6 +5,9 @@ import CheckoutItem from './CheckoutItem';
 import { Navbar, Container, Row, Col, Form, Button } from 'react-bootstrap';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { useEffect } from 'react';
 // Example array for the display. Will use database once integrated.
 const products = [
     {productName: 'Black T-Shirt For Men',
@@ -26,18 +29,40 @@ const products = [
 ]
 
 function Checkout() {
+    const [cartItems, setCartItems] = useState([]);
+    let total =0;
+    const shipping = 5.99;
+    if(cartItems){
+    total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
-    const [total, setTotal] = useState(799);
-    const [shipping, setShipping] = useState(10);
-
-    const getTotal = () => {
-        let total = 0;
-        products.map(product => {
-            total += product.productPrice * product.productQuantity;
-        });
-        setTotal(total);
-        console.log(total);
     }
+    const fetchProducts = async () => {
+      try {
+        const response = await axios('http://localhost:8080/api/v1/cart', {
+          headers: {
+            'authorization': `Bearer ${Cookies.get('token')}`
+          }
+        });
+        const productsData = await response.data.user.products; // Assuming the response contains an array directly
+        for(let i = 0; i < productsData.length; i++) {
+          const item = productsData[i];
+          const response = await axios.get(`http://localhost:8080/api/v1/products/${item._id}`);
+          productsData[i] = { ...response.data, quantity: item.quantity };  
+        }
+        setCartItems(productsData);
+      } catch (error) {
+        console.log(error);
+      }
+     // const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    };
+  
+    useEffect(() => {
+        fetchProducts();
+
+   
+       
+      }, []);
+    
         return (
             <div className='checkout-main'>
                 <Container>
@@ -132,14 +157,14 @@ function Checkout() {
                         {/*  This column will be done once we start working on backend */}
 
                         <Col className='default-font'>
-                            {products.map(product => (
+                            {!cartItems ? <div className="flipping"></div> : cartItems.map(product => (
                                 <CheckoutItem
-                                    key={product.productId}  // Add a unique key to each item for React's efficiency
-                                    className='item'
-                                    productName={product.productName}
-                                    productImage={product.productImage}
-                                    productQuantity={product.productQuantity}
-                                    productPrice={product.productPrice}
+                                    key={product._id}  // Add a unique key to each item for React's efficiency
+                                    className='item'    
+                                    productName={product.name}
+                                    productImage={product.images[0]}
+                                    productQuantity={product.quantity}
+                                    productPrice={product.price}
                                 />
                             ))}
                             <Form className='coupon-form' name='couponForm'>
@@ -158,7 +183,7 @@ function Checkout() {
                                 <h5 className='total-text'>Shipping</h5>
                                 <h6 className='total-text'>CAD {shipping}</h6>
                                 <h5 className='total-text'>Total</h5>
-                                <h6 className='total-text'>CAD {total+ shipping}</h6>
+                                <h6 className='total-text'>CAD {total+shipping}</h6>
                             </div>
                         </Col>
                     </Row>

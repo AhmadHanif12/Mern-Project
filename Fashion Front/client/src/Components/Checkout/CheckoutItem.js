@@ -2,6 +2,7 @@ import React from 'react'
 import './CheckoutItem.css'
 
 function CheckoutItem(props) {
+  
   return (
     <div className='item'>
         <img src={props.productImage} className='image' alt="products" />
