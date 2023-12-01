@@ -18,7 +18,7 @@ const productRouter = require('./Routers/productRouter');
 const cartRouter = require('./Routers/cartRouter');
 const sellerRouter = require('./Routers/sellerRouter');
 const myProductRouter = require('./Routers/myProductRouter');
-
+const categoryRouter = require('./Routers/categoryRouter');
 
 // Start express app
 const app = express();
@@ -71,6 +71,7 @@ app.use('/api/v1/products', productRouter);
 app.use('/api/v1/myProducts', myProductRouter);
 app.use('/api/v1/cart', cartRouter);
 app.use('/api/v1/seller', sellerRouter);
+app.use('/api/v1/category', categoryRouter);
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });

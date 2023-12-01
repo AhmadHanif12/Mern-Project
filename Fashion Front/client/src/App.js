@@ -17,6 +17,7 @@ import Cookies from 'js-cookie';
 import React, { Component } from 'react';
 import Profile from './Components/Profile/Profile';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Category from './Components/category/category';
 
 
 export class App extends Component {
@@ -48,6 +49,7 @@ export class App extends Component {
             <Route path="/products/*" element={<Product />} />
             <Route path="/seller/:id" element={<Seller/>}/> 
             <Route path="/profile" element={<Profile/>}/>
+            <Route path="/category/:category" element={<Category />} />
             
           </Routes>
         </BrowserRouter>

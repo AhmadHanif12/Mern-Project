@@ -60,6 +60,7 @@ const resizeProductImages = async (req, res, next) => {
 
 const getAllProducts = async (req, res, next) => {
   try {
+    
     const features = new APIFeatures(Product.find(), req.query)
       .filter()
       .sort()
@@ -120,7 +121,20 @@ const getSellerProducts = async (req, res) => {
 //     res.status(500).json({ error: 'Internal Server Error' });
 //   }
 // };
+const getProductsByCategory = async (req, res) => {
 
+  try {
+    console.log(req);
+    const products = await Product.find({ category: req.params.category });
+    if (!products || products.length === 0) {
+      return res.status(404).json({ error: 'No products found in this category' });
+    }
+    
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: 'Error in Category' });
+  }
+};
 
 
 
@@ -238,5 +252,6 @@ module.exports = {
   updateProductById,
   deleteProductById,
   uploadProductImages,
-  resizeProductImages
+  resizeProductImages,
+  getProductsByCategory
 };

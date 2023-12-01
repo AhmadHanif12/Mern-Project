@@ -56,13 +56,13 @@ function Header(props) {
                         <Nav className="me-auto">
                             <Nav.Link href="/">Home</Nav.Link>
                             <Nav.Link href="/shop">Shop</Nav.Link>
-                            <Nav.Link href="/clearence">Clearance</Nav.Link>
-                            <Nav.Link href="/minorFault">Minor Fault</Nav.Link>
+                            <Nav.Link href="/category/clearance">Clearance</Nav.Link>
+                            <Nav.Link href="/category/minorFault">Minor Fault</Nav.Link>
 
                             <NavDropdown title="New Arrivals" id="basic-nav-dropdown">
-                                <NavDropdown.Item href="#action/3.1">Men</NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.2">Women</NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.3">Kids</NavDropdown.Item>
+                                <NavDropdown.Item href="/category/men">Men</NavDropdown.Item>
+                                <NavDropdown.Item href="/category/women">Women</NavDropdown.Item>
+                                <NavDropdown.Item href="/category/kids">Kids</NavDropdown.Item>
                             </NavDropdown>
                             
                             {role === 'admin' && <Nav.Link href="/adminSeller">Admin Portal</Nav.Link>}
