@@ -12,7 +12,7 @@ router.get('/logout', authController.logout);
 
 
 router.get('/', userController.getuserbyId);
-
+router.get('/verify',authController.verifyUser)
 router.delete('/:id', sellerController.deleteSellerbyId);
 router.patch('/:id', sellerController.verifySellerbyId);
 

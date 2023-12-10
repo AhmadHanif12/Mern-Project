@@ -42,23 +42,41 @@ function AddProduct() {
         e.preventDefault();
         setMessage("");
         setErr("");
-
+      
         const { name, description, price, images, brand, category, stock } = product;
-
+        
         if (name === "" || description === "" || price === "" || images.length === 0 || brand === "" || category === "" || stock === "") {
-            setErr("Please fill all the fields");
-            return;
+          setErr("Please fill all the fields");
+          return;
         }
-
+      
         try {
-            const p = {
-                name,
-                description,
-                price,
-                brand,
-                category,
-                stock
-            };
+          const token = Cookies.get('token');
+      
+          // Check if the user is verified
+          const response = await axios.get('http://localhost:8080/api/v1/addproduct/verify', {
+            headers: {
+                'Authorization': `Bearer ${Cookies.get('token')}`,
+                'Content-Type': 'application/json'
+            }
+          });
+          console.log("Response");
+          console.log(response);
+      
+          if (!response.data.data.verified) {
+            setErr("You aren't verified yet. Please wait for the admin to verify you");
+            return;
+          }
+      
+          const p = {
+            name,
+            description,
+            price,
+            brand,
+            category,
+            stock
+          };
+      
             if (Cookies.get('token')) {
                 console.log(p);
                 const response = await axios.post('http://localhost:8080/api/v1/products/', p, {
@@ -67,7 +85,7 @@ function AddProduct() {
                         'Content-Type': 'application/json',
                     },
                 });
-                console.log(response);
+                // console.log(response);
 
                 const formData = new FormData();
                 for (let i = 0; i < images.length; i++) {
@@ -138,18 +156,7 @@ function AddProduct() {
                         <Form.Label>Product Price</Form.Label>
                         <Form.Control name='price' value={product.price} onChange={handleChange} className='customform' type="number" placeholder="Enter product price" />
                     </Form.Group>
-                    {/* <Form.Group controlId="productName">
-                       
-                    </Form.Group>
-
-                    <Form.Group controlId="productDescription">
-                       
-                    </Form.Group>
-
-                    <Form.Group controlId="productPrice">
-                      
-                    </Form.Group> */}
-
+                  
                     <Button onClick={submitHandler} className='custombutton1' variant="primary" type="submit">
                         Add Product
                     </Button>

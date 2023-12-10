@@ -72,6 +72,7 @@ app.use('/api/v1/myProducts', myProductRouter);
 app.use('/api/v1/cart', cartRouter);
 app.use('/api/v1/seller', sellerRouter);
 app.use('/api/v1/category', categoryRouter);
+app.use('/api/v1/addproduct/verify', userRouter);
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });

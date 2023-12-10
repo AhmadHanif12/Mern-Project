@@ -35,6 +35,29 @@ const createSendToken = (user, statusCode, req, res) => {
   });
 };
 
+// verfify user
+
+exports.verifyUser = async (req, res, next) => {
+  const token = req.headers.authorization;
+
+  // Decode the token
+  const decodedToken = jwt.decode(token);
+
+  // Get the user ID from the token
+  const userId = decodedToken.id;
+
+  // Fetch the user from the database
+  const user = await User.findById(userId);
+
+  // Check the 'verified' attribute
+  if (user.verified) {
+    res.json({ verified: true });
+  } else {
+    res.json({ verified: false });
+  }
+};
+
+
 //signup function
 
 exports.signup = async (req, res, next) => {
@@ -88,6 +111,8 @@ exports.signup = async (req, res, next) => {
     }
   }
 };
+
+
 
 //login function
 exports.login = async (req, res, next) => {
@@ -319,3 +344,4 @@ exports.restrictTo = (...roles) => {
     }
   };
 }
+
