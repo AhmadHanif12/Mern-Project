@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from '../../logo.svg';
+import logo from '../../logo.png';
 import cart from './Icons/cart.png';
 import find from './Icons/find.png';
 import profile from './Icons/profile.png';

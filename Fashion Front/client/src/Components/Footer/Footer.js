@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../../logo.svg';
+import logo from '../../flogo.png';
 import facebook from './Icons/facebook.png';
 import instagram from './Icons/instagram.png';
 import twitter from './Icons/twitter.png';
@@ -18,7 +18,7 @@ class Footer extends React.Component {
                                     src={logo}
                                     width="150"
                                     height="150"
-                                    className="d-inline-block align-top"
+                                    className="d-inline-block align-top logo"
                                     alt="Ecommerce Logo"
                                 />
                             </Navbar.Brand>

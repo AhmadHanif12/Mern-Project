@@ -2,19 +2,11 @@
     text-align: center;
 }
 .checkout-main img{
-    animation: rotate 3s linear infinite;
+    width: 250px;
 }
 .checkout-main{
     font-family: 'Montserrat', sans-serif;
 
-}
-@keyframes rotate{
-    0%{
-        transform: rotate(0deg);
-    }
-    100%{
-        transform: rotate(360deg);
-    }
 }
 
 .checkout-main .col:nth-child(1){

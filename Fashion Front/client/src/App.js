@@ -16,6 +16,8 @@ import Product from './Components/Product/Product';
 import Cookies from 'js-cookie';
 import React, { Component } from 'react';
 import Profile from './Components/Profile/Profile';
+import About from './Components/About/About';
+import Contact from './Components/Contact/Contact';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Category from './Components/category/category';
 
@@ -50,6 +52,8 @@ export class App extends Component {
             <Route path="/seller/:id" element={<Seller/>}/> 
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/category/:category" element={<Category />} />
+            <Route path="/aboutUs" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
             
           </Routes>
         </BrowserRouter>

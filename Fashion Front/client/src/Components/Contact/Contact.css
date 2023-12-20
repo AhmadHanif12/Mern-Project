@@ -1,0 +1,49 @@
+.contact-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.about-section, .platform-introduction, .seller-benefits, .call-to-action {
+    margin-bottom: 40px;
+}
+
+.about-section h1, .platform-introduction h2, .seller-benefits h2, .call-to-action h2 {
+    color: #333;
+}
+
+.about-section p, .platform-introduction p, .seller-benefits ul, .call-to-action p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.seller-benefits ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.seller-benefits ul li {
+    padding-left: 30px;
+    margin-bottom: 10px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: white;
+    color: black;
+    border: 1px solid #007bff;
+}
