@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import axios from 'axios';
+import ReCAPTCHA from "react-google-recaptcha";
+
 import './SignUp.css';
 
 const Signup = () => {
     const [err, setErr] = useState("");
     const [message, setMessage] = useState("");
+    const [captchaValue, setCaptchaValue] = useState(null);
+
     const [user, setUser] = useState({
         firstName: "",
         lastName: "",
@@ -14,8 +18,12 @@ const Signup = () => {
         password: "",
         passwordConfirm: "",
     });
+    const onchange = (captchaValue) => {
+        setCaptchaValue(captchaValue)
+    }
     const handleChange = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value });
+
     }
     const register = async (e) => {
         e.preventDefault();
@@ -37,6 +45,7 @@ const Signup = () => {
                 role,
                 password,
                 passwordConfirm,
+                captcha: captchaValue
             },
                 {
                     headers: {
@@ -97,6 +106,12 @@ const Signup = () => {
                                 <a href="/login" className="create-account">Already a user?</a>
                             </p>
                         </div>
+                        <ReCAPTCHA className='customcaptcha'
+                                    sitekey="6LfQZtEpAAAAAJz7U75TBrjyd_Rod_lUbQnSBW9a"
+                                    onChange={value => setCaptchaValue(value)}
+                                    onExpired={() => setCaptchaValue(null)}
+                                />
+
                     </Form>
                 </Col>
             </Row>

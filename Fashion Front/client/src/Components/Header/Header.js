@@ -1,15 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from '../../logo.png';
 import cart from './Icons/cart.png';
 import find from './Icons/find.png';
 import profile from './Icons/profile.png';
 import close from './Icons/close.png';
 import Cookies from 'js-cookie';
+import axios from 'axios';
+
 import './Header.css';
 import { Navbar, Nav, NavDropdown, Container, Form, Button } from 'react-bootstrap';
 
 function Header(props) {
     const [isActive, setIsActive] = useState(false);
+    const [User, SetUser] = useState();
+    useEffect(() => {
+        if(!User)
+            {
+            fetchuser();
+
+            }
+            
+    }, [User]);
     const role = Cookies.get('role');
 
     const openSearch = () => {
@@ -19,11 +30,31 @@ function Header(props) {
         setIsActive(false);
     };
 
+    const fetchuser = async () => {
+        if (Cookies.get('token')) {
+            try {
+                const response = await axios.get('http://localhost:8080/api/v1/users', {
+                    headers: {
+                        'Authorization': `Bearer ${Cookies.get('token')}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                SetUser(response.data.data);
+                
+
+                
+                
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+    
     const logout = () => {
         Cookies.remove('token');
         window.location.href = '/login';
     }
-
     return (
         <div>
             <div className={`search-bar ${isActive ? 'search-bar-active' : ''}`}>
@@ -64,10 +95,14 @@ function Header(props) {
                                 <NavDropdown.Item href="/category/women">Women</NavDropdown.Item>
                                 <NavDropdown.Item href="/category/kids">Kids</NavDropdown.Item>
                             </NavDropdown>
+
                             
-                            {role === 'admin' && <Nav.Link href="/adminSeller">Admin Portal</Nav.Link>}
-                            {role === 'seller' && <Nav.Link href="/sellerProduct">My Products</Nav.Link>}
-                            {role === 'seller' && <Nav.Link href="/addproduct">Add Product</Nav.Link>}
+                            
+                               {User && User.role === 'admin' && <Nav.Link href="/adminSeller">Admin Portal</Nav.Link>}
+                               {User && User.role === 'seller' && <Nav.Link href="/sellerProduct">My Products</Nav.Link>}
+                               {User && User.role === 'seller' && <Nav.Link href="/addproduct">Add Product</Nav.Link>}     
+
+                            
 
                             <Nav.Link href="/contact">Contact</Nav.Link>
 

@@ -5,6 +5,7 @@ const Product = require('../Models/productModel');
 const User = require('../Models/userModel');
 const mongoose = require('mongoose');
 const APIFeatures = require('../utils/apiFeatures');
+const escapeHtml = require('escape-html');
 
 
 const multerStorage = multer.memoryStorage();
@@ -174,12 +175,12 @@ const addProduct = async (req, res) => {
     }
     const newProduct = new Product({
       sellerId: new mongoose.Types.ObjectId(userId),
-      name: req.body.name,
-      description: req.body.description,
-      price: req.body.price,
-      stock: req.body.stock,
-      category: req.body.category,
-      brand: req.body.brand,
+      name: escapeHtml(req.body.name),
+      description: escapeHtml(req.body.description),
+      price: escapeHtml(req.body.price),
+      stock: escapeHtml(req.body.stock),
+      category: escapeHtml(req.body.category),
+      brand: escapeHtml(req.body.brand),
     });
     //const newProduct = new Product(req.body);
     const savedProduct = await newProduct.save();

@@ -1,3 +1,5 @@
+
+const axios = require('axios');
 const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
@@ -63,6 +65,27 @@ exports.verifyUser = async (req, res, next) => {
 exports.signup = async (req, res, next) => {
   try {
 
+    captcha = req.body.captcha
+    console.log(req)
+
+    if (!captcha) {
+      res.status(401).json({
+        status: 'fail',
+        message: 'Please Verify you are a human'
+      });
+      return;
+    }
+    const secretKey = process.env.CAPTCHA_KEY;
+    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captcha}`;
+
+    const response = await axios.post(verifyUrl);
+    const body = response.data;
+    if (body.success !== undefined && !body.success) {
+      return res.status(401).json({
+        status: 'fail',
+        message: 'Failed captcha verification'
+      });
+    }
     const newUser = await User.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -70,7 +93,8 @@ exports.signup = async (req, res, next) => {
       role: req.body.role,
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
-    });
+      captcha:req.body.captcha
+    }); 
     if (req.body.role === 'seller') {
       newUser.verified = false;
     }
@@ -103,7 +127,7 @@ exports.signup = async (req, res, next) => {
       else {
         res.status(400).json({
           status: 'fail',
-          message: 'Invalid Password'
+          message: 'Invalid Data'
         });
       }
 
@@ -114,17 +138,37 @@ exports.signup = async (req, res, next) => {
 
 
 
-//login function
-exports.login = async (req, res, next) => {
-  const { email, password } = req.body;
 
+exports.login = async (req, res, next) => {
+  const { email, password, captcha } = req.body;
   try {
+
     //Check if email exists and pass exits in the request
     if (!email || !password) {
       return next(new AppError('Please provide email and password!', 400));
     }
 
     const user = await User.findOne({ email }).select('+password');
+    
+    if (!captcha) {
+      res.status(401).json({
+        status: 'fail',
+        message: 'Please Verify you are a human'
+      });
+      return;
+    }
+    // Verify captcha
+    const secretKey = process.env.CAPTCHA_KEY;
+    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captcha}`;
+
+    const response = await axios.post(verifyUrl);
+    const body = response.data;
+    if (body.success !== undefined && !body.success) {
+      return res.status(401).json({
+        status: 'fail',
+        message: 'Failed captcha verification'
+      });
+    }
 
     //Authenticate the user
     if (!user || !(await user.correctPassword(password, user.password))) {
@@ -148,13 +192,7 @@ exports.login = async (req, res, next) => {
       });
       console.log(err);
     }
-
   }
-
-
-
-  //If everything ok, send token to client
-
 };
 
 exports.logout = (req, res) => {

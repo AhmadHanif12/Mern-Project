@@ -4,8 +4,9 @@ import { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import './Login.css'
-
+import ReCAPTCHA from "react-google-recaptcha";
 const Login = (props) => {
+    const [captchaValue, setCaptchaValue] = useState(null);
     const [err, setErr] = useState("");
     const [message, setMessage] = useState("");
     const [user, setUser] = useState({
@@ -13,6 +14,9 @@ const Login = (props) => {
         password: "",
 
     });
+    const onchange = (captchaValue) => {
+        setCaptchaValue(captchaValue)
+    }
     const handleChange = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value });
     }
@@ -31,7 +35,8 @@ const Login = (props) => {
         try {
             const response = await axios.post('http://localhost:8080/api/v1/users/login', {
                 email,
-                password
+                password,
+                captcha:captchaValue
             },
                 {
                     headers: {
@@ -41,10 +46,10 @@ const Login = (props) => {
 
             if (response.status === 200) {
                 setMessage("Login successful.");
-                Cookies.set('token',response.data.token, { expires: 7 });
+                Cookies.set('token', response.data.token, { expires: 7 });
                 props.setIsLogin(true);
-                console.log(response.data.data.role);
-                Cookies.set('role', response.data.data.user.role, { expires: 7 });
+                // console.log(response.data.data.role);
+                // Cookies.set('role', response.data.data.user.role, { expires: 7 });
                 window.location.replace("/");
             }
 
@@ -82,6 +87,11 @@ const Login = (props) => {
                                         <a href="/signup" className="create-account">Create account</a>
                                     </p>
                                 </div>
+                                <ReCAPTCHA className='customcaptcha'
+                                    sitekey="6LfQZtEpAAAAAJz7U75TBrjyd_Rod_lUbQnSBW9a"
+                                    onChange={value => setCaptchaValue(value)}
+                                    onExpired={() => setCaptchaValue(null)}
+                                />
 
                             </Form.Group>
 
